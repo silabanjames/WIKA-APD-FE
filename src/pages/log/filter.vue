@@ -7,15 +7,15 @@
                 <div class="mb-3">
                   <label class="form-label" for="exampleFormControlSelect30"><h6>Date</h6></label>
                   <div>
-                    <input class="form-control" type="date">
+                    <input class="form-control" type="date" v-model="date">
                   </div>
                 </div>
               </div>
 
               <div class="col">
                 <div class="mb-3">
-                  <label class="form-label" for="exampleFormControlSelect30"><h6>Filter</h6></label>
-                  <select class="form-select digits" id="exampleFormControlSelect30">
+                  <label class="form-label" for="formControl30"><h6>Filter</h6></label>
+                  <select class="form-select digits" id="formControl30">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -27,8 +27,8 @@
 
               <div class="col">
                 <div class="mb-3">
-                  <label class="form-label" for="exampleFormControlSelect30"><h6>Filter</h6></label>
-                  <select class="form-select digits" id="exampleFormControlSelect30">
+                  <label class="form-label" for="formControl31"><h6>Filter</h6></label>
+                  <select class="form-select digits" id="formControl31">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -47,3 +47,33 @@
         </form>
     </div>
 </template>
+
+<script>
+export default{
+  data(){
+    return {
+      newDateStr: this.$store.getters['log/changeDateStyle']
+    }
+  },
+  computed: {
+    date: {
+      get(){
+        return this.$store.state.log.date
+      },
+      set(newValue){
+        this.$store.commit('log/changeDate', newValue)
+      }
+    }
+  },
+  methods:{
+    compareDate(dateStr){
+      // Estimate the date value is string
+      const date = new Date(dateStr)
+
+      return this.date.getTime() === date.getTime()
+    },
+  },
+
+  
+}
+</script>

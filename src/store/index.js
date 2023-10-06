@@ -5,6 +5,8 @@ import layout from './modules/layout';
 import menu from './modules/menu';
 import auth from './modules/auth';
 import bootstrap from './modules/bootstrap';
+
+import log from './modules/log'
 // import chat from './modules/chat';
 // import product from './modules/product';
 // import email from './modules/email';
@@ -48,7 +50,9 @@ export default createStore({
       layout,
       menu,
       auth,
-      bootstrap
+      bootstrap,
+      
+      log,
     }
 });
 
