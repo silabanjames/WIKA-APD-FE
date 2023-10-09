@@ -17,6 +17,7 @@ import monitoringLog from '../pages/log/monitoringLog.vue'
 // Settings
 import userManagement from '../pages/settings/userManagement/userManagement.vue'
 import addUser from '../pages/settings/add/addUser.vue'
+import editUser from '../pages/settings/edit/editUser.vue'
 
 import Default from '../pages/dashboard/defaultPage.vue'
 
@@ -114,6 +115,11 @@ const routes =[
             path: 'add-user',
             name: 'addUser',
             component: addUser,
+          },
+          {
+            path: 'edit-user',
+            name: 'editUser',
+            component: editUser,
           }
         ]
       }
