@@ -1,0 +1,124 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "image": "product-table-1.png",
+            "camera_name": "Camera-1",
+            "camera_location": "Location-1",
+            "jabatan": "buruh",
+            "helm": true,
+            "vest": true,
+            "boots": true,
+            "violance": true,
+            "timestamp": "2022/4/25"
+        },
+        {
+            "id": 2,
+            "image": "product-table-2.png",
+            "camera_name": "Camera-1",
+            "camera_location": "Location-1",
+            "jabatan": "buruh",
+            "helm": true,
+            "vest": false,
+            "boots": true,
+            "violance": true,
+            "timestamp": "2022/4/25"
+        },
+        {
+            "id": 3,
+            "image": "product-table-3.png",
+            "camera_name": "Camera-2",
+            "camera_location": "Location-2",
+            "jabatan": "buruh",
+            "helm": true,
+            "vest": true,
+            "boots": true,
+            "violance": true,
+            "timestamp": "2022/4/25"
+        },
+        {
+            "id": 4,
+            "image": "product-table-4.png",
+            "camera_name": "Camera-2",
+            "camera_location": "Location-2",
+            "jabatan": "buruh",
+            "helm": true,
+            "vest": true,
+            "boots": false,
+            "violance": true,
+            "timestamp": "2022/4/25"
+        },
+        {
+            "id": 5,
+            "image": "product-table-5.png",
+            "camera_name": "Camera-3",
+            "camera_location": "Location-3",
+            "jabatan": "buruh",
+            "helm": false,
+            "vest": false,
+            "boots": true,
+            "violance": true,
+            "timestamp": "2022/5/25"
+        },
+        {
+            "id": 6,
+            "image": "product-table-6.png",
+            "camera_name": "Camera-3",
+            "camera_location": "Location-3",
+            "jabatan": "buruh",
+            "helm": true,
+            "vest": false,
+            "boots": false,
+            "violance": true,
+            "timestamp": "2022/4/25"
+        },
+        {
+            "id": 7,
+            "image": "product-table-7.png",
+            "camera_name": "Camera-2",
+            "camera_location": "Location-2",
+            "jabatan": "buruh",
+            "helm": true,
+            "vest": true,
+            "boots": false,
+            "violance": true,
+            "timestamp": "2022/7/25"
+        },
+        {
+            "id": 8,
+            "image": "product-table-5.png",
+            "camera_name": "Camera-1",
+            "camera_location": "Location-1",
+            "jabatan": "buruh",
+            "helm": true,
+            "vest": true,
+            "boots": false,
+            "violance": true,
+            "timestamp": "2022/4/25"
+        },
+        {
+            "id": 9,
+            "image": "product-table-4.png",
+            "camera_name": "Camera-1",
+            "camera_location": "Location-1",
+            "jabatan": "buruh",
+            "helm": true,
+            "vest": false,
+            "boots": false,
+            "violance": true,
+            "timestamp": "2022/4/25"
+        },
+        {
+            "id": 10,
+            "image": "product-table-1.png",
+            "camera_name": "Camera-3",
+            "camera_location": "Location-3",
+            "jabatan": "buruh",
+            "helm": true,
+            "vest": false,
+            "boots": false,
+            "violance": true,
+            "timestamp": "2022/4/25"
+        }
+    ]
+}

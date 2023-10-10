@@ -62,37 +62,51 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="product in productList" :key="product">
-                                        <td>no.</td>
-                                        <td>
-                                            <img :src="getImgUrl(product.image)" alt="">
-                                        </td>
-                                        <td>
-                                            ID
-                                        </td>
-                                        <td>
-                                            <h6> {{ product.product_name }}</h6><span>{{ product.product_desc }}</span>
-                                        </td>
-                                        <td>Location</td>
-                                        <td>
-                                            jabat
-                                        </td>
-                                        <td><vue-feather type="x"></vue-feather></td>
-                                        <td :class="product.stockStatus"><vue-feather type="x"></vue-feather></td>
-                                        <td><vue-feather type="check"></vue-feather></td>
-                                        <td>langgar</td>
-                                        <td>{{ product.start_date }}</td>
-                                        <td>
-                                            <button class="btn btn-info btn-xs" type="button"
-                                            data-original-title="btn btn-danger btn-xs" title="">
-                                                <vue-feather type="check"></vue-feather>
-                                            </button>
-                                            <button class="btn btn-danger btn-xs ms-1" type="button"
-                                            data-original-title="btn btn-danger btn-xs" title="">
-                                                <vue-feather type="x"></vue-feather>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    <template v-for="track in trackingList">
+                                        <tr v-if="!date || compareDate(track.timestamp)">
+                                            <td>no.</td>
+                                            <td>
+                                                <img :src="getImgUrl(track.image)" alt="">
+                                            </td>
+                                            <td>
+                                                {{ track.id }}
+                                            </td>
+                                            <td>
+                                                {{ track.camera_name }}
+                                            </td>
+                                            <td>
+                                                {{ track.camera_location }}
+                                            </td>
+                                            <td>
+                                                {{ track.jabatan }}
+                                            </td>
+                                            <td>
+                                                <vue-feather :type="track.helm ? 'check' : 'x'"></vue-feather>
+                                            </td>
+                                            <td>
+                                                <vue-feather :type="track.vest ? 'check' : 'x'"></vue-feather>
+                                            </td>
+                                            <td>
+                                                <vue-feather :type="track.boots ? 'check' : 'x'"></vue-feather>
+                                            </td>
+                                            <td>
+                                                {{ track.violance ? "langgar"  : "tidak" }}
+                                            </td>
+                                            <td>
+                                                {{ track.timestamp }}
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-info btn-xs" type="button"
+                                                data-original-title="btn btn-danger btn-xs" title="">
+                                                    <vue-feather type="check"></vue-feather>
+                                                </button>
+                                                <button class="btn btn-danger btn-xs ms-1" type="button"
+                                                data-original-title="btn btn-danger btn-xs" title="" @click="deleteTrack(track.id)">
+                                                    <vue-feather type="x"></vue-feather>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </template>
                                 </tbody>
                             </table>
                         </div>
@@ -105,20 +119,33 @@
 </template>
 
 <script>
-import { productlist } from "../../data/ecommerce/productList"
+import { mapState, mapGetters } from 'vuex';
 import FilterData from './filter.vue'
 export default {
-    name: 'productList',
+    name: 'tracingList',
     components: {FilterData},
     data() {
         return {
-            productList: productlist
+            
         }
+    },
+    computed: {
+        ...mapState({
+            trackingList: state => state.log.trackingList,
+            date: state => state.log.date
+        }),
+        ...mapGetters('log',['compareDate'])
     },
     methods: {
         getImgUrl(path) {
             return require("@/assets/images/ecommerce/" + path);
         },
+        deleteTrack(id){
+            this.$store.commit('log/deleteTrack', id);
+            // this.$toast.show(' One Record has been deleted.', {
+            //     theme: 'outline', position: 'top-right', type: 'success', duration: 2000
+            // });
+        }
     }
 }
 </script>
