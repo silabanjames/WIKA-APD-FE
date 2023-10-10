@@ -11,16 +11,29 @@
               <option value="c02">Camera_002</option>
               <option value="c03">Camera_003</option>
             </select>
-            <button class="btn btn-info">GALLERY</button>
+            <button class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">GALLERY</button>
+            <div class="modal fade" id="exampleModalCenter" aria-hidden="true">
+              <GalleryModal />
+            </div>
           </div>
         </div>
 
         <div>
           <!-- <img src="" alt=""> -->
-          <div class="bg-secondary mt-3" style="width: 100%; height: 450px;">
+          <div class="bg-secondary mt-3" style="width: 100%; padding-top: 56.25%;">
             
           </div>
         </div>
       </div>
     </div>
 </template>
+
+<script>
+import GalleryModal from "../galleryModal/galleryModal"
+
+export default{
+  components: {
+    GalleryModal
+  }
+}
+</script>
