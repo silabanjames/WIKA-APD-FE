@@ -1,5 +1,5 @@
 <template>
-    <h2 class="py-3">User Management</h2>
+    <h3 class="px-4 pt-5 pb-3">User Management</h3>
     <User />
     <SetAlarm />
 </template>
