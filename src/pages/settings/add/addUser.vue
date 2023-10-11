@@ -6,9 +6,9 @@
                     <h4>Add User</h4>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-7 order-md-0 order-1">
-                            <form class="theme-form mega-form">
+                    <form class="theme-form mega-form">
+                        <div class="row">
+                            <div class="col-md-7 order-md-0 order-1 pe-5">
                                 <div class="mb-3">
                                     <label class="form-label">Name</label>
                                     <input class="form-control" type="text" placeholder="Name" />
@@ -28,7 +28,6 @@
                                 <div class="mb-3 d-grid">
                                     <button class="btn btn-primary">Submit</button>
                                 </div>
-                            </form>
                         </div>
                         <div class="col-md-5 text-center mb-3">
                             <div class="">
@@ -38,7 +37,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
