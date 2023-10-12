@@ -2,10 +2,10 @@
     <div class="col-sm-12 p-15 mx-auto">
       <div class="card">
             <div class="card-header d-flex justify-content-end">
-              <b-button size="md" class="btn btn-primary">
+              <RouterLink :to="{name: 'addUser'}"  class="btn btn-primary">
                 <vue-feather type="user-plus" size="20" />
                 Add User
-              </b-button>
+              </RouterLink>
             </div>
         <div class="table-responsive p-3">
           <table class="table align-items-center rounded">
@@ -35,7 +35,9 @@
                 </td>
                 <td>
                   <div class="flex">
-                    <vue-feather type="edit" stroke="green" />
+                    <RouterLink :to="{name: 'editUser'}">
+                      <vue-feather type="edit" stroke="green" />
+                    </RouterLink>
                     <vue-feather type="trash-2" stroke="red" />
                   </div>
                 </td>

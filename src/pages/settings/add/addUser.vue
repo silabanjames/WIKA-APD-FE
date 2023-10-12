@@ -28,12 +28,14 @@
                                 <div class="mb-3 d-grid">
                                     <button class="btn btn-primary">Submit</button>
                                 </div>
-                        </div>
-                        <div class="col-md-5 text-center mb-3">
-                            <div class="">
-                                <div class="mb-3">
-                                    <img class="img-fluid" :src="imageUrl" alt="Preview" v-if="imageUrl" />
-                                    <input class="form-control-file d-flex m-10 text-center" type="file" @change="updateImage" />
+                            </div>
+                            
+                            <div class="col-md-5 text-center mb-3">
+                                <div class="">
+                                    <div class="mb-3">
+                                        <img class="img-fluid" :src="imageUrl" alt="Preview" v-if="imageUrl" />
+                                        <input class="form-control-file d-flex m-10 text-center" type="file" @change="updateImage" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
