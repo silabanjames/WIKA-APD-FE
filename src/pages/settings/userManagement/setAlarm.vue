@@ -14,7 +14,7 @@
                     </div>
                     <div class="col-12 d-flex justify-content-end">
                         <button class="btn btn-block" :class="{'btn-danger': sound.isAlarmActive, 'btn-primary': !sound.isAlarmActive,}" type="button" @click="sound.isAlarmActive ? stopAlarm() : setAlarm()">
-                        {{ sound.isAlarmActive ? 'Stop' : 'Submit' }}
+                        {{ sound.isAlarmActive ? 'Stop' : (sound.isLoading ? 'Loading...' : 'Submit') }}
                         </button>
                     </div>
                 </form>
@@ -31,6 +31,7 @@ import { reactive } from "vue";
 const sound = reactive({
     alarmTimeout: 0,
     isAlarmActive: false,
+    isLoading: false,
 });
 
 // SET ALARM WITH HOWLER
@@ -42,6 +43,7 @@ const alarm = new Howl({
 
 const setAlarm = () => {
     const timeout = sound.alarmTimeout * 1000;
+    sound.isLoading = true;
     console.log("Setting Alarm for " + timeout + " Seconds");
 
     setTimeout(() => {
@@ -49,6 +51,7 @@ const setAlarm = () => {
         alarm.play();
 
         sound.isAlarmActive = true;
+        sound.isLoading = false;
         sound.alarmTimeout = 0;
     }, timeout);
 };
