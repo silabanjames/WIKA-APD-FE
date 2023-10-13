@@ -13,7 +13,7 @@
                         <input class="form-control" type="number" v-model="sound.alarmTimeout" placeholder="Set Alarm" />
                     </div>
                     <div class="col-12 d-flex justify-content-end">
-                        <button class="btn btn-block" :class="{'btn-danger': sound.isAlarmActive, 'btn-primary': !sound.isAlarmActive,}" type="button" @click="sound.isAlarmActive ? stopAlarm() : setAlarm()">
+                        <button class="btn btn-block" :class="{'btn-danger': sound.isAlarmActive, 'btn-primary': !sound.isAlarmActive,}" type="button" @click="sound.isAlarmActive ? stopAlarm() : setAlarm()" :disabled="sound.isLoading">
                         {{ sound.isAlarmActive ? 'Stop' : (sound.isLoading ? 'Loading...' : 'Submit') }}
                         </button>
                     </div>
