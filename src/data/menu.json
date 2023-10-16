@@ -1,29 +1,49 @@
 {
   "data": [
     {
-      "headTitle1": "General",
-      "type": "headtitle"
-    },
-    {
+      "path": "/",
       "title": "Dashboard",
       "icon": "stroke-home",
       "iconf":"fill-home",
-      "type": "sub",
-      "active": false
-     
-    },
-    {
-      "title": "Raise Support",
-      "icon": "stroke-social",
-      "iconf":"fill-special",
-      "type": "sub",
+      "type": "link",
       "active": false
     },
     {
-      "title": "Documentation",
+      "title": "Report",
       "icon": "stroke-form",
-      "iconf":"fill-from",
+      "iconf":"fill-form",
       "type": "sub",
+      "active": false,
+      "children": [
+        {
+          "path": "/report/chart1",
+          "title": "Chart 1",
+          "type": "link",
+          "active":false
+        },
+        {
+          "path": "/report/chart2",
+          "title": "Chart 2",
+          "type": "link",
+          "active":false
+        }
+      ]
+    },
+    {
+      "path": "/log",
+      "title": "Log",
+      "icon": "stroke-learning",
+      "iconf":"fill-learning",
+      "type": "link",
+      "active": false
+    },
+    {
+      "path": "/settings",
+      "title": "Settings",
+      "icon": "stroke-internationalization",
+      "iconf":"fill-internationalization",
+      "type": "link",
       "active": false
     }
+
   ]}

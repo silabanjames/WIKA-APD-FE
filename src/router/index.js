@@ -9,6 +9,8 @@ import register from "../auth/register.vue";
 import google_chart from "../pages/report/googleChart/google_chart"
 import apex_chart from "../pages/report/ApexChart/apex_chart"
 import chartist_chart from "../pages/report/chartist/chartist_chart.vue"
+import chart1 from "../pages/report/report1/chart1.vue"
+import chart2 from "../pages/report/report2/chart2.vue"
 
 // Log
 import monitoringLog from '../pages/log/monitoringLog.vue'
@@ -55,30 +57,21 @@ const routes =[
         component:Body,
         children:[
           {
-            path:"google",
-            name:"googlechart",
-            component:google_chart,
-            meta: {
-              title: "Google Chart | Cuba - Premium Admin Template",
-            },
-          },
-          {
-            path:"apexChart",
-            name:"apexchart",
-            component:apex_chart,
-            meta: {
-              title: "ApexChart | Cuba - Premium Admin Template",
-            },
-          },
-          {
-            path:"chartist",
-            name:"chartist",
-            component:chartist_chart,
+            path:"chart1",
+            name:"chart1",
+            component:chart1,
             meta: {
               title: "Chartist | Cuba - Premium Admin Template",
             },
           },
-    
+          {
+            path:"chart2",
+            name:"chart2",
+            component:chart2,
+            meta: {
+              title: "Chartist | Cuba - Premium Admin Template",
+            },
+          }
         ],
       },
 
