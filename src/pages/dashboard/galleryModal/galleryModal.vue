@@ -11,9 +11,11 @@
 
         <div class="modal-body row">
           <div class="col-lg-9 col-">
-            <div class="bg-secondary" style="width: 100%; padding-top: 56.25%;">
 
+            <div class="position-relative bg-secondary" id="canvas-container" style="width: 100%; padding-top: 56.25%;">
+              <canvas class="position-absolute top-0 start-0" id="canvas" style="background-color: aqua; width: 100%; height: 100%;"></canvas>
             </div>
+          
           </div>
           <div class="col-lg-3 justify-content-between">
             <div>
@@ -58,14 +60,14 @@
 
 <style scoped>
 .layout_picker{
-  display: flex;
+  /* display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: stretch;
-  font-size: 10px;
-  width: 100%;
-  padding: 0.5em;
+  font-size: 10px; */
+  width: 100px;
+  /* padding: 0.5em; */
 }
 
 .tag{
@@ -82,6 +84,7 @@
 
 <script>
 import Picker from 'vanilla-picker';
+import { fabric } from 'fabric';
 
 export default{
   data(){
@@ -90,12 +93,15 @@ export default{
     }
   },
   mounted(){
-    new Picker({
+    /*
+    * picker configuration
+    */
+    const picker = new Picker({
       parent: document.querySelector('#colorPicker'),
       popup: false,
       alpha: false,
       layout: 'default',
-      editor: true,
+      // editor: true,
       editorFormat: 'hex',
       onChange: (color) => {
         this.color = color.hex
@@ -103,7 +109,127 @@ export default{
       }
     });
 
+    /*
+    * Fabric JS Configuration
+    */
+    this.$nextTick( ()=>{
+				// do something after the dom has updated
+        let canvasContainer = document.getElementById('canvas-container');
     
+        // let containerWidth = canvasContainer.clientWidth;
+        // let containerHeight = canvasContainer.clientHeight;
+    
+        let canvas = new fabric.Canvas('canvas', { 
+          selection: false,
+        });
+        console.log(canvasContainer)
+        console.log(canvasContainer.clientHeight)
+        // canvas.setWidth(document.getElementById('canvas-container').clientWidth)
+        // canvas.setHeight(document.getElementById('canvas-container').clientHeight)
+        fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
+    
+        let circle, line;
+        let isDone = false;
+        let isOver = false;
+        let startDrawing = false;
+        let lines = [];
+        let circles = [];
+        let x2 = 0;
+        let y2 = 0;
+        let circleIndex;
+    
+    
+        canvas.on('mouse:down', function (options) {
+          if(!isDone){
+            startDrawing = true;
+            let pointer = canvas.getPointer(options.pointer);
+    
+            let points = [pointer.x, pointer.y, pointer.x, pointer.y];
+            
+            if(!isOver){
+              line = new fabric.Line(points, {
+                  strokeWidth: 3,
+                  fill: 'red',
+                  stroke: 'red',
+                  originX: 'center',
+                  originY: 'center',
+                  zIndex: 100,
+                  selectable: false
+              });
+              circle = new fabric.Circle({
+                left: line.x1,
+                top: line.y1,
+                strokeWidth: 1,
+                opacity: 0.5,
+                radius: 10,
+                fill: 'transparent',
+                stroke: '#666',
+                perPixelTargetFind: true,
+                selectable: false
+              });
+              circle.hasControls = circle.hasBorders = false;
+              circles.push(circle);
+              canvas.add(circle)
+              lines.push(line);
+              circle.lineId = lines.length - 1;
+              canvas.add(line);
+            }
+            else{
+              circles[circleIndex].set('radius', 10);
+              circles[circleIndex].set('opacity', 0.5);
+              canvas.renderAll();
+              line.set({ x2: x2, y2: y2 });
+              isOver = false;
+              isDone = true;
+              startDrawing = false;
+            }
+          }
+        });
+    
+        canvas.on('mouse:move', function (options) {
+            let pt = { x: options.pointer.x, y: options.pointer.y };
+    
+            for (let i = 0; i < circles.length; i++) {
+                if (circles[i].containsPoint(pt)) {
+                    if (!circles[i].mouseOver) {
+                        circles[i].mouseOver = true;
+                        circles[i].set('radius', 15);
+                        circles[i].set('opacity', 1.5);
+                        circles[i].set('selectable', false);
+                        canvas.requestRenderAll();
+                        isOver = true;
+                        circleIndex = i;
+    
+                        x2 = lines[circles[i].lineId].x1;
+                        y2 = lines[circles[i].lineId].y1;
+                        
+    
+                    }
+                } else if (circles[i].mouseOver) {
+                    circles[i].mouseOver = false;
+                    circles[i].set('opacity', 0.5);
+                    circles[i].set('radius', 10);
+                    circles[i].set('selectable', false);
+                    canvas.requestRenderAll();
+                    isOver = false;
+                }
+            }
+    
+            if (!startDrawing) {
+                return;
+            }
+            let pointer = canvas.getPointer(options.pointer);
+    
+            if (isOver) {
+                line.set({ x2: x2, y2: y2 });
+            } else {
+                line.set({ x2: pointer.x, y2: pointer.y });
+            }
+    
+            canvas.requestRenderAll();
+        });
+			})
+
   }
 }
 </script>
