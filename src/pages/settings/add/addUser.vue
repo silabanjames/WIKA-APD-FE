@@ -36,6 +36,7 @@
                                         <img class="img-fluid" :src="imageUrl" alt="Preview" v-if="imageUrl" />
                                         <input class="form-control-file d-flex m-10 text-center" type="file" @change="updateImage" />
                                     </div>
+
                                 </div>
                             </div>
                         </div>
