@@ -28,6 +28,7 @@
                                 <div class="mb-3 d-grid">
                                     <button class="btn btn-primary">Submit</button>
                                 </div>
+                            </div>
                         </div>
                         <div class="col-md-5 text-center mb-3">
                             <div class="">
