@@ -5,45 +5,109 @@ const state = {
     user: {
         id: '',
         name: '',
-        username: 'superdede',
-        password: 'super@dede.com',
+        email: {
+            value: '',
+            errormsg: ''
+        },
+        password: {
+            value: '',
+            errormsg: ''
+        },
         role: '',
     }
 }
 
 const getters = {
-    
+    getEmail: state => {return state.user.email.value},
+    getPassword: state => {return state.user.password.value}
 }
 
 
 const mutations = {
-    handleLogin(state){
-        const { username, password } = state.user
-        axiosInstance.post('/auth/login/', {
-            username,
-            password
-        }).then(
-            res => {
-                const token = res.data.access_token
-
-                sessionStoreage.setItem('token', token)
-
-                state.token = token
-                state.user.id = res.data.user.id
-                state.user.name = res.data.user.name
-                state.user.role = res.data.user.role
-                state.user.password = ''
-
-                router.push('/')
-            }
-        )
+    handleLogin(state, data){
+        // state.user.id = data.id
+        state.user.name = data.name
+        state.user.role = data.role
+        state.user.email.value = data.email
+        state.user.password.value = ''
+    },
+    handleLogOut(state){
+        // Reset user data
+        // state.id = ''
+        state.name = ''
+        state.email = ''
+        state.password = ''
+        state.role = ''
+    },
+    editEmail(state, email){
+        state.user.email.value = email
+    },
+    editPassword(state, password){
+        state.user.password.value = password
+    },
+    editEmailErrMsg(state, msg){
+        state.user.email.errormsg = msg
+    },
+    editPasswordErrMsg(state, msg){
+        state.user.password.errormsg = msg
     }
 }
 
 const actions = {
     handleLogin(context){
-        context.commit('handleLogin')
-    }
+        const email = context.getters.getEmail
+        const password = context.getters.getPassword
+        return axiosInstance.post('/auth/sign-in', {
+            email,
+            password
+        })
+        .then(res => res.data)
+        .then(
+            data => {
+                const token = data.access_token
+                sessionStorage.setItem('token', token)
+                axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+                context.commit('handleLogin', data.user_information)
+                console.log('true')
+                return true
+            }
+        )
+        .catch(err => {
+            console.log(err)
+            return false
+        })
+    },
+    handleRegister(context, {first_name, last_name, email, password}){
+        let name = first_name + " " + last_name
+        axiosInstance.post('/auth/sign-up', {
+            name,
+            email,
+            password
+        })
+        .then( () => {
+            router.push('/auth/login')
+            return true
+        })
+        .catch(err => {
+            console.log(err)
+            return false
+        })
+    },
+    handleLogOut(context){
+        let confirmation = confirm("Apakah anda yakin ingin keluar dari aplikasi?")
+
+        if(confirmation){
+            sessionStorage.removeItem('token')
+            delete axiosInstance.defaults.headers.common["Authorization"];
+            
+            // reset the data
+            context.commit('handleLogOut')
+
+            router.push('/auth/login')
+        }
+    },
+    
 }
 
 export default {

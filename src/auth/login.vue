@@ -13,23 +13,23 @@
                 </a>
               </div>
               <div class="login-main">
-                <form class="theme-form" @submit.prevent="$store.dispatch('auth/handleLogin')">
+                <form class="theme-form" @submit.prevent="login">
                   <h4>Sign in to account</h4>
                   <p>Enter your email & password to login</p>
                   <div class="form-group">
                     <label class="col-form-label">Email Address</label>
                     <input class="form-control" type="email" required="" placeholder="Test@gmail.com"
-                      v-model="user.email.value">
-                    <span class="validate-error" v-if="!user.email.value || !validEmail(user.email.value)">{{
-                      user.email.errormsg }}</span>
+                      v-model="email">
+                    <span class="validate-error" v-if="!email || !validEmail(email)">{{
+                      emailErrMsg }}</span>
 
                   </div>
                   <div class="form-group">
                     <label class="col-form-label">Password</label>
                     <div class="form-input position-relative">
                       <input class="form-control" type="password" name="login[password]" required=""
-                        placeholder="*********" v-model="user.password.value">
-                      <span class="validate-error" v-if="user.password.value.length < 7">{{ user.password.errormsg
+                        placeholder="*********" v-model="password">
+                      <span class="validate-error" v-if="password.length < 7">{{ passwordErrMsg
                       }}</span>
 
                       <div class="show-hide"><span class="show"> </span></div>
@@ -52,7 +52,6 @@
                     <!-- <a class="ms-2" href="sign-up.html">Create Account</a> -->
                   </p>
                 </form>
-
               </div>
             </div>
           </div>
@@ -70,53 +69,58 @@ export default {
   name: 'login',
   data() {
     return {
-
-      result: { email: '', password: '' },
-
-      user: {
-        email: {
-          value: 'test@admin.com',
-          errormsg: ''
-        },
-        password: {
-          value: 'test@123456',
-          errormsg: ''
-        }
-      }
+      
     };
   },
 
-  created() {
-
+  computed: {
+    email: {
+      set(value){ this.$store.commit('auth/editEmail', value) },
+      get(){ return this.$store.state.auth.user.email.value }
+    },
+    password: {
+      set(value){ this.$store.commit('auth/editPassword', value) },
+      get(){ return this.$store.state.auth.user.password.value }
+    },
+    emailErrMsg: {
+      set(value){ this.$store.commit('auth/editEmailErrMsg', value) },
+      get(){ return this.$store.state.auth.user.email.errormsg }
+    },
+    passwordErrMsg: {
+      set(value){ this.$store.commit('auth/editPasswordErrMsg', value) },
+      get() { return this.$store.state.auth.user.password.errormsg }
+    }
   },
 
   methods: {
 
-    login() {
-      if (!this.user.password.value || this.user.password.value.length < 7) {
-        this.user.password.errormsg = 'min length 7'
-      } else { this.user.password.errormsg = '' }
+    async login() {
+      /*
+      * Check Input
+      */
+      if (!this.password || this.password.length < 7) {
+        this.passwordErrMsg = 'min length 7'
+      } else { this.$store.state.auth.passwordErrMsg = '' }
 
-      if (!this.user.email.value) {
-        this.user.email.errormsg = 'empty not allowed'
-      } else if (!this.validEmail(this.user.email.value)) {
-        this.user.email.errormsg = 'Valid email required.'
+      if (!this.email) {
+        this.emailErrMsg = 'empty not allowed'
+      } else if (!this.validEmail(this.email)) {
+        this.emailErrMsg = 'Valid email required.'
       }
       else {
-        this.user.email.errormsg = ''
+        this.emailErrMsg = ''
       }
-      if (!this.user.email.errormsg && !this.user.password.errormsg && this.user.email.value != 'test@admin.com' || this.user.password.value != 'test@123456') {
+
+      /*
+      * Send Request to Backend
+      */
+      let handleLogin = await this.$store.dispatch('auth/handleLogin')
+      if (!this.emailErrMsg && !this.passwordErrMsg && !handleLogin) {
         alert("wrong credenstials")
       }
-      if (!this.user.email.errormsg && !this.user.password.errormsg && this.user.email.value == 'test@admin.com' && this.user.password.value == 'test@123456') {
-
-        this.result = { email: this.user.email.value, password: this.user.password.value }
-
-        sessionStorage.setItem('User', JSON.stringify({ email: this.user.email.value, useer: true }))
-        this.logging = true
+      if (!this.emailErrMsg && !this.passwordErrMsg && handleLogin) {
+        console.log(handleLogin)
         this.$router.push('/')
-
-
       }
     },
     validEmail: function (email) {
