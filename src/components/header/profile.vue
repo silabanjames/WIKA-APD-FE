@@ -22,8 +22,8 @@
       <li>
         <vue-feather type="settings"></vue-feather><span>Settings</span>
       </li>
-      <li>
-        <vue-feather type="log-in"></vue-feather><span>Log out</span>
+      <li @click="$store.dispatch('auth/handleLogOut')">
+          <vue-feather type="log-in"></vue-feather><span>Log out</span>
       </li>
     </ul>
   </li>

@@ -30,24 +30,28 @@ const routes =[
         {
           path: 'login',
           name: 'login page',
-          component: login
+          component: login,
+          meta: { guest: true },
+
         },
         {
           path: 'register',
           name: 'register',
-          component: register
+          component: register,
+          meta: { guest: true },
         }
       ]
     },
     {
         path: '/',
         component: Body,
-    
         children: [
           {
             path: '',
             name: 'dasboard',
             component: Default,
+            meta: { requiresAuth: true },
+            
           },
     
         ],
@@ -62,6 +66,7 @@ const routes =[
             component:chart1,
             meta: {
               title: "Chartist | Cuba - Premium Admin Template",
+              requiresAuth: true
             },
           },
           {
@@ -70,6 +75,7 @@ const routes =[
             component:chart2,
             meta: {
               title: "Chartist | Cuba - Premium Admin Template",
+              requiresAuth: true
             },
           }
         ],
@@ -86,6 +92,7 @@ const routes =[
             component: monitoringLog,
             meta: {
               title: "Products list | Cuba - Premium Admin Template",
+              requiresAuth: true
             },
           },
         ],
@@ -102,17 +109,24 @@ const routes =[
             component: userManagement,
             meta: {
               title: "Products list | Cuba - Premium Admin Template",
+              requiresAuth: true
             },
           },
           {
             path: 'add-user',
             name: 'addUser',
             component: addUser,
+            meta: {
+              requiresAuth: true
+            }
           },
           {
             path: 'edit-user',
             name: 'editUser',
             component: editUser,
+            meta: {
+              requiresAuth: true
+            }
           }
         ]
       }
@@ -122,13 +136,38 @@ const router=createRouter({
     history: createWebHistory(),
     routes
 })
-router.beforeEach((to,from, next) => {
-  if(to.meta.title)
-    document.title = to.meta.title
-  const path = ['/auth/login', '/auth/register'];
-  if(path.includes(to.path) || sessionStorage.getItem('User')){
-    return next()
+// router.beforeEach((to,from, next) => {
+//   if(to.meta.title)
+//     document.title = to.meta.title
+//   const path = ['/auth/login', '/auth/register'];
+//   if(path.includes(to.path) || sessionStorage.getItem('User')){
+//     return next()
+//   }
+//   next('/auth/login')
+// })
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.guest)) {
+    if (sessionStorage.getItem('token')) {
+      next(false);
+      return;
+    }
+    next();
+  } else {
+    next();
   }
-  next('/auth/login')
+});
+
+router.beforeEach((to,from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)){
+    if(sessionStorage.getItem('token')){
+      next();
+      return;
+    }
+    next('/auth/login')
+  } else {
+    next();
+  }
 })
+
 export default router
