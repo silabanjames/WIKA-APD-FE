@@ -14,7 +14,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive product-table">
-                            <table class="display" id="basic-1">
+                            <table class="table display" id="basic-1">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -124,11 +124,6 @@ import FilterData from './filter.vue'
 export default {
     name: 'tracingList',
     components: {FilterData},
-    data() {
-        return {
-            
-        }
-    },
     computed: {
         ...mapState({
             trackingList: state => state.log.trackingList,
@@ -146,7 +141,14 @@ export default {
             //     theme: 'outline', position: 'top-right', type: 'success', duration: 2000
             // });
         }
-    }
+    },
+
+    /*
+    * Uncomment untuk mendapatkan data dengna request
+    */
+    // beforeMount(){
+    //     this.$store.dispatch('log/getRequestData')
+    // }
 }
 </script>
 
