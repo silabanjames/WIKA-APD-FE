@@ -20,8 +20,8 @@
 
         <div>
           <!-- <img src="" alt=""> -->
-          <div class="bg-secondary mt-3" style="width: 100%; padding-top: 56.25%;">
-            
+          <div class="bg-secondary mt-3 position-relative" style="width: 100%; padding-top: 56.25%;">
+            <img src="" alt="CCTV" class="position-absolute top-0 start-0 img-fluid" id="display-video">
           </div>
         </div>
       </div>
@@ -30,10 +30,33 @@
 
 <script>
 import GalleryModal from "../galleryModal/galleryModal"
+import { io } from "socket.io-client"
 
 export default{
   components: {
     GalleryModal
+  },
+  mounted(){
+    const socket = io(process.env.VUE_APP_WEBSOCKET_URL, {
+      transports: ['websocket']
+    })
+
+    let imgChunks = [];
+
+    socket.on('connect', ()=>{
+    console.log(`You connected with id: ${socket.id}`)
+    })
+
+    socket.on('receive-video', chunk => {
+      let img = document.getElementById('display-video')
+      imgChunks.push(chunk);
+      console.log('cek data ', chunk)
+      img.setAttribute('src', 'data:image/jpg;base64,' + chunk.buffer);
+    })
+
+    socket.on('connect_error', (error)=>{
+    console.error(error)
+    })
   }
 }
 </script>
