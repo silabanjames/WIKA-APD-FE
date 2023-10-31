@@ -46,7 +46,7 @@ const actions={
         /*
         * Edit 'track_information' untuk mendapatkan data
         */
-        await axiosInstance.get('/auth/sign-in')
+        await axiosInstance.get('/log')
         .then(res => res.data)
         .then(data => {
             context.commit('getRequestData', data.track_information)
