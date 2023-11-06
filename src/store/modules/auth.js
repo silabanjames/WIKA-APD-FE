@@ -66,6 +66,7 @@ const actions = {
             data => {
                 const token = data.access_token
                 sessionStorage.setItem('token', token)
+                console.log(token)
                 axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
                 context.commit('handleLogin', data.user_information)
