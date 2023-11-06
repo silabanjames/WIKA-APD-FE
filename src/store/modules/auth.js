@@ -27,9 +27,9 @@ const mutations = {
     handleLogin(state, data){
         // state.user.id = data.id
         state.user.name = data.name
-        state.user.role = data.role
         state.user.email.value = data.email
         state.user.password.value = ''
+        state.user.role = data.role
     },
     handleLogOut(state){
         // Reset user data
