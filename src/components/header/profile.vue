@@ -10,18 +10,6 @@
       </div>
     </div>
     <ul class="profile-dropdown onhover-show-div">
-      <li>
-        <vue-feather type="user"></vue-feather><span>Account </span>
-      </li>
-      <li>
-        <vue-feather type="mail"></vue-feather><span>Inbox</span>
-      </li>
-      <li>
-        <vue-feather type="file-text"></vue-feather><span>Taskboard</span>
-      </li>
-      <li>
-        <vue-feather type="settings"></vue-feather><span>Settings</span>
-      </li>
       <li @click="$store.dispatch('auth/handleLogOut')">
           <vue-feather type="log-in"></vue-feather><span>Log out</span>
       </li>

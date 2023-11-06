@@ -67,7 +67,7 @@ const actions = {
                 const token = data.access_token
                 sessionStorage.setItem('token', token)
                 console.log(token)
-                axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token');
 
                 context.commit('handleLogin', data.user_information)
                 console.log('true')
@@ -97,18 +97,12 @@ const actions = {
     },
     handleLogOut(context){
         let confirmation = confirm("Apakah anda yakin ingin keluar dari aplikasi?")
-
         if(confirmation){
             sessionStorage.removeItem('token')
-            delete axiosInstance.defaults.headers.common["Authorization"];
-            
-            // reset the data
             context.commit('handleLogOut')
-
             router.push('/auth/login')
         }
-    },
-    
+    }
 }
 
 export default {
