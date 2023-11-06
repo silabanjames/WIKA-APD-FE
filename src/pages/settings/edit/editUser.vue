@@ -29,7 +29,7 @@
 
                             <div class="col-md-5 text-center mb-3">
                                 <div class="dz-message needsclick">
-                                    <DropZone class="position-relative" :maxFileSize="Number(60000000)" ref="dropzone" url="http://127.0.0.1:3000/upload" :uploadOnDrop="false" @addedFile="uploaded" :maxFiles="1"/>
+                                    <DropZone class="position-relative" ref="dropzone" :maxFileSize="Number(60000000)" url="http://127.0.0.1:3000/upload" :uploadOnDrop="false" @addedFile="uploaded" :maxFiles="1" :files="[file]"/>
                                 </div>
                             </div>
                         </div>
@@ -45,6 +45,7 @@ export default {
     data() {
         return {
             file: "",
+            image: null
         }
     },
     props: ['id'],
@@ -69,13 +70,24 @@ export default {
             formData.append('email', this.email)
             this.$store.dispatch('editUser/handleEditUser', formData)
             this.$router.push('/settings')
-        }
-
+        },
+        addFile() {
+            // Add a file to the Dropzone
+            this.$refs.dropzone.addFile(this.file);
+        },
 
     },
-    created(){
+    mounted(){
         this.$store.commit('editUser/editId', this.id)
-        console.log(this.$store.state.editUser.id)
+        // console.log(this.$store.state.editUser.id)
+        
+        // const file = { size: 123, name: "Icon", type: "image/png" }
+        // const file = new File("../../../assets/logo.png", "image/jpeg")
+        // this.file = file
+        // console.log(this.$refs.dropzone.manuallyAddFile(file, url))
+
+        // this.$refs.dropzone.files = file
+        console.log(this.$refs.dropzone)
     }
 }
 </script>

@@ -37,7 +37,7 @@
                                     <input class="form-control-file d-flex m-10 text-center" type="file" @change="updateImage" />
                                 </div> -->
                                 <div class="dz-message needsclick">
-                                    <DropZone class="dropzone_scope" :maxFileSize="Number(60000000)" ref="dropzone" url="http://127.0.0.1:3000/upload" :uploadOnDrop="false" :maxFiles="1" @addedFile="uploaded" />
+                                    <DropZone class="dropzone_scope" :maxFileSize="Number(60000000)" ref="dropzone" url="http://127.0.0.1:3000/upload" :uploadOnDrop="false" :maxFiles="1" @addedFile="uploaded" options.removeLinks="true" />
                                 </div>
                             </div>
                         </div>
@@ -53,6 +53,49 @@
 img{
     max-width: 100%; 
     height: auto;
+}
+
+.dropzone__item{
+    position: relative;
+}
+
+.dropzone__item-controls{
+
+}
+
+i.gg-close{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 6%;
+    height: 6%;
+    cursor: pointer;
+    position: absolute;
+    background: rgba(255,255,255,0.8);
+    border-radius: 45%;
+    top: 5px;
+    right: 5px;
+}
+
+i.gg-close:hover{
+    background: rgba(255,255,255,0.6);
+}
+
+i.gg-close::after, i.gg-close::before{
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    width: 80%;
+    height: 10%;
+    background: currentColor;
+    transform: rotate(45deg);
+    border-radius: 5px;
+    padding: .15rem;
+}
+
+i.gg-close::after{
+    transform: rotate(-45deg);
 }
 </style>
 
@@ -93,7 +136,10 @@ export default {
             /*
             * Menyimpan file
             */
-            this.file = event.file
+            // this.file = event.file
+            console.log(this.$refs.dropzone)
+            console.log(this.$refs.dropzone.file)
+
         },
         submitForm(){
             const formData = new FormData();
@@ -118,9 +164,6 @@ export default {
             }
             */
         },
-        removePhoto(){
-
-        }
     },
     mounted(){
     }
