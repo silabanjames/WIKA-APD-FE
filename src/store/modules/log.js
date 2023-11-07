@@ -62,7 +62,7 @@ const actions={
             await axiosInstance.delete(`log/delete-data/${id}`)
             .then(res => res.data)
             .then(data => {
-                context.commit('log/deleteTrack')
+                context.commit('log/deleteTrack', id)
             })
         }
     }
