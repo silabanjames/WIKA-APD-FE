@@ -100,7 +100,9 @@ i.gg-close::after{
 </style>
 
 <script>
+import getImage from "@/mixins/getImage"
 export default {
+    mixins: [getImage],
     data() {
         return {
             imageUrl: "../../../assets/upload-image.png",
@@ -114,31 +116,30 @@ export default {
         /*
         * Fungsi Upload 1
         */
-        /*
-        updateImage(event) {
-            const file = event.target.files[0];
-            console.log(file)
+        // updateImage(event) {
+        //     const file = event.target.files[0];
+        //     console.log(file)
 
-            if (file) {
-                const reader = new FileReader();
+        //     if (file) {
+        //         const reader = new FileReader();
 
-                reader.onload = (e) => {
-                    this.imageUrl = e.target.result;
-                    console.log(e)
-                };
+        //         reader.onload = (e) => {
+        //             this.imageUrl = e.target.result;
+        //             console.log(e.target.result)
+        //             console.log(e)
+        //         };
 
-                reader.readAsDataURL(file);
-            }
-        },
-        */
+        //         reader.readAsDataURL(file);
+        //     }
+        // },
 
         async uploaded(event){
             /*
             * Menyimpan file
             */
-            // this.file = event.file
+            this.file = event.file
             console.log(this.$refs.dropzone)
-            console.log(this.$refs.dropzone.file)
+            console.log(this.$refs.dropzone.initialFiles)
 
         },
         submitForm(){

@@ -40,6 +40,14 @@
     </div>
 </template>
 
+<style>
+.temp_dropzone {
+    background: rgb(243, 238, 234, 0.4);
+    border: 2px dashed #6990f2;
+    padding: 10px
+}
+</style>
+
 <script>
 export default {
     data() {
@@ -79,15 +87,25 @@ export default {
     },
     mounted(){
         this.$store.commit('editUser/editId', this.id)
-        // console.log(this.$store.state.editUser.id)
-        
-        // const file = { size: 123, name: "Icon", type: "image/png" }
-        // const file = new File("../../../assets/logo.png", "image/jpeg")
-        // this.file = file
-        // console.log(this.$refs.dropzone.manuallyAddFile(file, url))
+        this.$store.dispatch('editUser/getData')
 
-        // this.$refs.dropzone.files = file
-        console.log(this.$refs.dropzone)
+        // Kosongkan Child Element
+        const zone = this.$refs.dropzone.dropzone
+        const child1 = zone.children[0]
+        child1.innerHTML = ""
+
+        // Isi Child Element dengan gambar
+        const div1 = document.createElement("div");
+        const img = document.createElement("img");
+        div1.setAttribute("class", "temp_dropzone")
+        
+        /*
+        * Ganti require() dengan path image
+        * require digunakan jika directory bersifat private
+        */
+        img.setAttribute("src", require('../../../assets/upload-image.png'));
+        div1.appendChild(img)
+        child1.appendChild(div1)
     }
 }
 </script>

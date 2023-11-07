@@ -4,9 +4,7 @@ const state = {
     id: "",
     name: "",
     email: "",
-}
-
-const getters = {
+    pathImage: "",
 }
 
 const mutations = {
@@ -18,12 +16,24 @@ const mutations = {
     },
     editEmail(state, email){
         state.email = email
-    }
+    },
+    editPath(state, path){
+        state.path = path
+    },
 }
 
 const actions = {
-    getData(){
-        axiosInstance.get('')
+    async getData(context){
+        axiosInstance.get('/user/edit-user')
+        .then(res=>res.data)
+        .then(
+            data=>{
+                context.commit('editUser/editName', data.name)
+                context.commit('editUser/editEmail', data.email)
+                context.commit('editUser/editPath', data.image_url)
+            }
+        )
+        .catch(err => console.log(err))
     },
     async handleEditUser(context, {formData}){
         axiosInstance.patch('/editUser', formData, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
