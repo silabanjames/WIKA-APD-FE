@@ -26,13 +26,11 @@
           </div>
         </div>
 
-      <div>
-        <div class="bg-secondary position-relative" id="canvas-container2" style="width: 100%; padding-top: 56.25%;">
-              <canvas class="position-absolute top-0 start-0" id="canvas2" style="background-color: aqua; width: 100%; height: 100%;"></canvas>
-            </div>
-      </div>
-
     </div>
+
+    <!-- <div>
+      <GalleryModal2 />
+    </div> -->
 </template>
 
 
@@ -40,8 +38,11 @@
 import Graphics from "./graphics/graphics.vue"
 import Camera from "./camera/camera.vue"
 
+
+import GalleryModal2 from "../dashboard/galleryModal/gallerModal2.vue"
+
 export default{
-  components: { Graphics, Camera },
+  components: { Graphics, Camera, GalleryModal2 },
   mounted(){
     let canvas = new fabric.Canvas('canvas2', { 
       selection: false

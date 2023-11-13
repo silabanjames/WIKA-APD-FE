@@ -1,25 +1,25 @@
 <template>
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-      <div class="modal-content">
-        <div class="modal-header d-flex flex-column align-items-start w-auto pb-1">
-          <h5 class="modal-title fw-bold">GALLERY</h5>
+    <div class="mdl d-flex position-fixed position-absolute top-50 start-50 translate-middle w-75" >
+      <div class="w-100 px-3 py-4 rounded bg-dark">
+        <div class="d-flex flex-column align-items-start w-auto pb-1">
+          <h5 class="fw-bold py-1 m-0">GALLERY</h5>
           <div class="w-100 d-flex justify-content-between">
             <div class="small text-secondary">CCTV View & Image Tagging</div>
             <div class="small text-secondary">dd/mm/yyyy 08:00:00 - CCTV 1</div>
           </div>
         </div>
 
-        <div class="modal-body row">
-          <div class="col-lg-9 d-flex">
+        <div class="row">
+          <div class="col-lg-9">
 
-            <!-- <div class="position-relative bg-secondary" id="canvas-container" style="width: 100%; padding-top: 56.25%;"> -->
-              <canvas class="position-absolute" id="canvas" style="width: 100%;" ></canvas>
-            <!-- </div> -->
+            <div class="bg-secondary" id="canvas-container2" style="width: 100%; padding-top: 56.25%;">
+              <canvas class=" top-0 start-0" id="canvas2" style="background-color: aqua; width: 100%; height: 100%;"></canvas>
+            </div>
           
           </div>
           <div class="col-lg-3 d-flex flex-column">
 
-            <div class="colorPicker d-flex justify-content-center pb-2 pt-lg-0 pt-2" id="colorPicker" style="width: 100%;"></div>
+            <div class="colorPicker2 d-flex justify-content-center pb-2 pt-lg-0 pt-2" id="colorPicker2" style="width: 100%;"></div>
 
             <!-- Tag -->
             <div class="tag my-1">
@@ -43,10 +43,11 @@
             </div>
 
             <!-- Modal Button -->
-              <div class="d-flex flex-wrap justify-content-between mt-auto">
-                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
-                <button class="btn btn-primary" type="button">Save changes</button>
-              </div>
+            <div class="d-flex flex-wrap justify-content-between mt-auto">
+              <!-- <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button> -->
+              <button class="btn btn-secondary" type="button" @click="closeModal">Close</button>
+              <button class="btn btn-primary" type="button">Save changes</button>
+            </div>
           </div>
         </div>
 
@@ -76,6 +77,10 @@
   border-bottom: 3px solid black;
   margin: 0 0;
 }
+
+.mdl{
+  z-index: 100;
+}
 </style>
 
 <script>
@@ -88,12 +93,17 @@ export default{
       color: ''
     }
   },
+  methods: {
+    closeModal(){
+      this.$emit('close')
+    }
+  },
   mounted(){
     /*
     * picker configuration
     */
     const picker = new Picker({
-      parent: document.querySelector('#colorPicker'),
+      parent: document.querySelector('#colorPicker2'),
       popup: false,
       alpha: false,
       layout: 'default',
@@ -108,39 +118,21 @@ export default{
     /*
     * Fabric JS Configuration
     */
-
 				// do something after the dom has updated
-        // let canvasContainer = document.getElementById('canvas-container');
+        let canvasContainer = document.getElementById('canvas-container2');
     
         // let containerWidth = canvasContainer.clientWidth;
         // let containerHeight = canvasContainer.clientHeight;
-
-        const image = new Image()
-        // image.src = 'http://fabricjs.com/assets/jail_cell_bars.png';
-        image.src = require('@/assets/images/dummyImage1.jpg')
-
-        let canvas = new fabric.Canvas('canvas', { 
+    
+        let canvas = new fabric.Canvas('canvas2', { 
           selection: false,
         });
-        // console.log(canvasContainer)
-        // console.log(canvasContainer.clientHeight)
-        // canvas.setWidth(document.getElementById('canvas-container').clientWidth)
-        // canvas.setHeight(document.getElementById('canvas-container').clientHeight)
+        console.log(canvasContainer)
+        console.log(canvasContainer.clientHeight)
+        // canvas.setWidth(document.getElementById('canvas-container2').clientWidth)
+        // canvas.setHeight(document.getElementById('canvas-container2').clientHeight)
         fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
-        image.onload = function () {
-          canvas.setWidth(image.width)
-          canvas.setHeight(image.height)
-          console.log(image.width)
-          console.log(image.height)
-          canvas.setBackgroundImage(
-            require('../../../assets/images/dummyImage1.jpg'),
-            canvas.renderAll.bind(canvas),{
-              scaleX: canvas.width / image.width,
-              scaleY: canvas.height / image.height
-            }
-          );
-        }
-
+    
         let circle, line;
         let isDone = false;
         let isOver = false;
@@ -162,8 +154,8 @@ export default{
             if(!isOver){
               line = new fabric.Line(points, {
                   strokeWidth: 3,
-                  fill: 'red',
-                  stroke: 'red',
+                  fill: 'green',
+                  stroke: 'green',
                   originX: 'center',
                   originY: 'center',
                   zIndex: 100,

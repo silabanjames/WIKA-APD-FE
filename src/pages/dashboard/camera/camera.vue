@@ -15,6 +15,13 @@
             <div class="modal fade" id="exampleModalCenter" aria-hidden="true">
               <GalleryModal />
             </div>
+
+            <!-- <button class="btn btn-info" type="button" @click="toggleModal">GALLERY</button>
+            <div class="mdl-fade" v-if="showModal">
+              <GalleryModal2 @close="toggleModal" />
+            </div> -->
+
+
           </div>
         </div>
 
@@ -30,10 +37,22 @@
 
 <script>
 import GalleryModal from "../galleryModal/galleryModal"
+import GalleryModal2 from "../galleryModal/gallerModal2.vue"
 
 export default{
+  data(){
+    return {
+      showModal: false
+    }
+  },
+  methods: {
+    toggleModal(){
+      this.showModal = !this.showModal
+    }
+  },
   components: {
-    GalleryModal
+    GalleryModal,
+    GalleryModal2
   }
 }
 </script>
