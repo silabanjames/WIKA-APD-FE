@@ -16,7 +16,7 @@
             <div class="col-lg-9">
   
               <div class="bg-secondary" id="canvas-container2" style="width: 100%;">
-                <canvas class=" top-0 start-0 border border-2" id="canvas2" style="width: 100%; height: 100%;"></canvas>
+                <canvas class=" top-0 start-0" id="canvas2" style="width: 100%; height: 100%;"></canvas>
               </div>
             
             </div>
@@ -61,16 +61,6 @@
 </template>
 
 <style scoped>
-.layout_picker{
-  /* display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: stretch;
-  font-size: 10px; */
-  width: 100px;
-  /* padding: 0.5em; */
-}
 
 .tag{
   border-style: solid;
@@ -100,19 +90,19 @@ import { fabric } from 'fabric';
 export default{
   data(){
     return {
-      color: '',
-      check: "text"
+
     }
   },
   methods: {
     closeModal(){
       this.$emit('close')
     },
-    checkMethod(){
-      console.log('check')
-    }
   },
   mounted(){
+    const canvasContainer = document.getElementById('canvas-container2');
+    let boxWidth = canvasContainer.clientWidth
+    canvasContainer.style.height = `${boxWidth*0.5625}px`
+
     // Close modal by click outside
     const outerModal = document.querySelector('#mdl')
     const closeModal = this.closeModal
@@ -125,27 +115,21 @@ export default{
     /*
     * picker configuration
     */
+    let getColor = null
     const picker = new Picker({
       parent: document.querySelector('#colorPicker2'),
       popup: false,
       alpha: false,
       layout: 'default',
-      // editor: true,
       editorFormat: 'hex',
       onChange: (color) => {
-        this.color = color.hex
-        this.color = this.color.slice(0,7)
+        getColor = color.hex
       }
     });
 
     /*
     * Fabric JS Configuration
     */
-				// do something after the dom has updated
-        const canvasContainer = document.getElementById('canvas-container2');
-        let boxWidth = canvasContainer.clientWidth
-        canvasContainer.style.height = `${boxWidth*0.5625}px`
-        
         let canvas = new fabric.Canvas('canvas2', { 
           selection: false,
         });
@@ -188,7 +172,6 @@ export default{
           canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
         })
 
-
         let circle, line;
         let isDone = false;
         let isOver = false;
@@ -198,7 +181,7 @@ export default{
         let x2 = 0;
         let y2 = 0;
         let circleIndex;
-    
+        let pointCoordinate = []
     
         canvas.on('mouse:down', function (options) {
           if(!isDone){
@@ -209,13 +192,13 @@ export default{
             
             if(!isOver){
               line = new fabric.Line(points, {
-                  strokeWidth: 3,
-                  fill: 'green',
-                  stroke: 'green',
-                  originX: 'center',
-                  originY: 'center',
-                  zIndex: 100,
-                  selectable: false
+                strokeWidth: 3,
+                fill: getColor,
+                stroke: getColor,
+                originX: 'center',
+                originY: 'center',
+                zIndex: 100,
+                selectable: false
               });
               circle = new fabric.Circle({
                 left: line.x1,
@@ -234,6 +217,7 @@ export default{
               lines.push(line);
               circle.lineId = lines.length - 1;
               canvas.add(line);
+              pointCoordinate.push([circle.left, circle.top])
             }
             else{
               circles[circleIndex].set('radius', 10);

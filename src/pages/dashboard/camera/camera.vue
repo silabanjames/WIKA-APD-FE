@@ -6,12 +6,14 @@
             <span class="bg-success py-2 px-3 rounded-pill">Connection</span>
           </div>
           <div class="d-flex">
-            <select class="form-select me-3">
+            <select class="form-select me-3" id="cameraSelector" v-model="activeCamera">
+              <option value="" selected disabled hidden>- Choose Camera -</option>
               <option value="c01">Camera_001</option>
               <option value="c02">Camera_002</option>
               <option value="c03">Camera_003</option>
             </select>
             
+
             <!-- <button class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">GALLERY</button>
             <div class="modal fade" id="exampleModalCenter" aria-hidden="true">
               <GalleryModal />
@@ -27,22 +29,33 @@
 
         <div>
           <!-- <img src="" alt=""> -->
-          <div class="bg-secondary mt-3" style="width: 100%; padding-top: 56.25%;">
+          <div class="bg-secondary mt-3" id="videoMonitor" style="width: 100%;">
             
           </div>
         </div>
+
       </div>
     </div>
 </template>
 
 <script>
 import GalleryModal from "../galleryModal/galleryModal"
-import GalleryModal2 from "../galleryModal/gallerModal2.vue"
+import GalleryModal2 from "../galleryModal/galleryModal2.vue"
 
 export default{
   data(){
     return {
-      showModal: false
+      showModal: false,
+    }
+  },
+  computed: {
+    activeCamera: {
+      get(){
+        return this.$store.state.dashboard.activeCamera
+      },
+      set(value){
+        this.$store.commit('dashboard/editActiveCamera', value)
+      }
     }
   },
   methods: {
@@ -53,6 +66,21 @@ export default{
   components: {
     GalleryModal,
     GalleryModal2
+  },
+  mounted(){
+    const cameraSelector = document.querySelector('#cameraSelector')
+    cameraSelector.addEventListener('change', ()=>{
+      console.log('change')
+    })
+
+    const videoMonitor = document.querySelector('#videoMonitor')
+    let videoWidth = videoMonitor.clientWidth
+    videoMonitor.style.height = `${videoWidth*0.5625}px`
+
+    window.addEventListener("resize", ()=> {
+      videoWidth = videoMonitor.clientWidth
+      videoMonitor.style.height = `${videoWidth*0.5625}px`      
+    })
   }
 }
 </script>

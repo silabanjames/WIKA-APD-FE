@@ -119,10 +119,6 @@ export default{
     */
 
 				// do something after the dom has updated
-    
-        // let containerWidth = canvasContainer.clientWidth;
-        // let containerHeight = canvasContainer.clientHeight;
-
         const image = new Image()
         // image.src = 'http://fabricjs.com/assets/jail_cell_bars.png';
         image.src = require('@/assets/images/dummyImage1.jpg')
@@ -130,14 +126,10 @@ export default{
         let canvas = new fabric.Canvas('canvas', { 
           selection: false,
         });
-        // console.log(canvasContainer)
-        // console.log(canvasContainer.clientHeight)
-        // canvas.setWidth(document.getElementById('canvas-container').clientWidth)
-        // canvas.setHeight(document.getElementById('canvas-container').clientHeight)
+
         fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
         image.onload = function () {
-          // canvas.setWidth(image.width)
-          // canvas.setHeight(image.height)
+
           console.log(image.width)
           console.log(image.height)
           canvas.setBackgroundImage(
