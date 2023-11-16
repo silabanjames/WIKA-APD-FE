@@ -1,5 +1,4 @@
 <template>
-
     <div class="container-fluid">
         <!-- <Breadcrumbs main="Starter Kit"/> -->
 
@@ -35,6 +34,6 @@ import Graphics from "./graphics/graphics.vue"
 import Camera from "./camera/camera.vue"
 
 export default{
-  components: { Graphics, Camera }
+  components: { Graphics, Camera}
 }
 </script>

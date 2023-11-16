@@ -7,6 +7,7 @@ import auth from './modules/auth';
 import bootstrap from './modules/bootstrap';
 
 import log from './modules/log'
+import dashboard from './modules/dashboard'
 // import chat from './modules/chat';
 // import product from './modules/product';
 // import email from './modules/email';
@@ -51,7 +52,7 @@ export default createStore({
       menu,
       auth,
       bootstrap,
-      
+      dashboard,
       log,
     }
 });
