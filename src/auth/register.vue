@@ -20,7 +20,7 @@
                 </a>
               </div>
               <div class="login-main">
-                <form class="theme-form">
+                <form class="theme-form" @submit.prevent="submitForm">
                   <h4>Create your account</h4>
                   <p>Enter your personal details to create account</p>
                   <div class="form-group">
@@ -32,7 +32,9 @@
                           type="text"
                           required=""
                           placeholder="First name"
+                          v-model="first_name"
                         />
+                        <span class="validate-error" v-if="!first_name">{{ nameErrMsg }}</span>
                       </div>
                       <div class="col-6">
                         <input
@@ -40,18 +42,21 @@
                           type="text"
                           required=""
                           placeholder="Last name"
+                          v-model="last_name"
                         />
                       </div>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-form-label">Email Address</label>
+                    <label class="col-form-label" >Email Address</label>
                     <input
                       class="form-control"
                       type="email"
                       required=""
                       placeholder="Test@gmail.com"
+                      v-model="email"
                     />
+                    <span class="validate-error" v-if="!email || !validEmail(email)">{{ emailErrMsg }}</span>
                   </div>
                   <div class="form-group">
                     <label class="col-form-label">Password</label>
@@ -63,27 +68,13 @@
                         name="login[password]"
                         required=""
                         placeholder="*********"
+                        v-model="password"
                       />
+                      <span class="validate-error" v-if="password.lenght < 7">{{ passwordErrMsg }}</span>
                       <div class="show-hide"><span :class="active?'show':'hide'" @click.prevent="show"> </span></div>
-                      </div>
-                  </div>
-                  <div class="form-group mb-0">
-                    <div class="checkbox p-0">
-                      <input id="checkbox1" type="checkbox" />
-                      <label class="text-muted" for="checkbox1"
-                        >Agree with<a class="ms-2" href="#"
-                          >Privacy Policy</a
-                        ></label
-                      >
                     </div>
-                    <button class="btn btn-primary btn-block" >
-                      Create Account
-                    </button>
                   </div>
-                  <h6 class="text-muted mt-4 or">Or signup with</h6>
-                  <div class="social mt-4">
-                    <div class="btn-showcase"><a class="btn btn-light" href="#" ><vue-feather class="txt-linkedin" type="linkedin"></vue-feather> LinkedIn </a><a class="btn btn-light" href="#" ><vue-feather class="txt-twitter" type="twitter"></vue-feather>twitter</a><a class="btn btn-light" href="#" ><vue-feather class="txt-fb" type="facebook"></vue-feather>facebook</a></div>
-                  </div>
+                  <button class="btn btn-primary btn-block w-100 mt-2" type="submit">Create Account</button>
                   <p class="mt-4 mb-0">
                     Already have an account?
                     <router-link class="ms-2" tag="a" to="/auth/login">
@@ -103,12 +94,72 @@
 export default {
     data(){
         return{
-            active: true
+            active: true,
+            first_name: '',
+            last_name: '',
+            email: '',
+            password: '',
+            emailErrMsg: '',
+            passwordErrMsg: '',
+            nameErrMsg: ''
         }
     },
     methods:{
         show(){
             this.active=!this.active
+        },
+        submitForm(){
+          /*
+          * Check name input
+          */
+          if(!this.first_name){
+            this.nameErrMsg = "empty not allowed"
+          } else {
+            this.nameErrMsg = ""
+          }
+          
+          /*
+          * Check email Input
+          */
+          if(!this.email){
+            this.email = "empty not allowed"
+          } else if(!this.validEmail(this.email)){
+            this.emailErrMsg = 'Valid email required.'
+          }
+          else{
+            this.emailErrMsg = ''
+          }
+          
+          /*
+          * Send Password Input
+          */
+          if(!this.password || this.password < 7){
+            this.passwordErrMsg = "empty not allowed"
+          } else{
+            this.passwordErrMsg = ''
+          }
+
+          if(!this.nameErrMsg && !this.emailErrMsg && !this.passwordErrMsg){
+            let payload =  {
+              first_name: this.first_name, 
+              last_name: this.last_name, 
+              email: this.email, 
+              password: this.password
+            }
+            let handleRegister = this.$store.dispatch('auth/handleRegister', payload)
+
+            if(!handleRegister){
+              alert("email have been used")
+            }
+            else{
+              this.$router.push('/auth/login')
+            }
+          }
+
+        },
+        validEmail: function (email) {
+          const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          return re.test(email)
         }
     }
 }

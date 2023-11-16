@@ -6,23 +6,74 @@
           :style="[layoutobject.split(' ').includes('horizontal-wrapper')  ? layout.settings.layout_type=='rtl'? {'  -right': margin+'px'} : {'margin-left': margin+'px'} :  { margin : '0px'}]"
           >
             <li class="back-btn">
-              <router-link to="/">
+              <RouterLink to="/">
                 <img
                   class="img-fluid"
                   src="../../assets/images/logo/logo-icon.png"
                   alt=""
-              /></router-link>
+              /></RouterLink>
               <div class="mobile-back text-end">
                 <span>Back</span
                 ><i class="fa fa-angle-right ps-2" aria-hidden="true"></i>
               </div>
             </li>
-            <li class="sidebar-main-title">
-              <!-- <div>
-                <h6 class="lan-1">General</h6>
-              </div> -->
+
+            <div class="mt-3"></div>
+            
+            <li v-for="(menuItem, index) in menuItems" :key="index" class="sidebar-list">
+              <a href="javascript:void(0)" class="sidebar-link sidebar-title" :class="{ 'active': menuItem.active }"
+                  v-if="menuItem.type=='sub'" @click="setNavActive(menuItem, index)">
+
+                  <svg class="stroke-icon">
+                      <use :xlink:href="require('@/assets/svg/icon-sprite.svg') + `#${menuItem.icon}`"></use>
+                  </svg>
+                  <svg class="fill-icon">
+                      <use :xlink:href="require('@/assets/svg/icon-sprite.svg') + `#${menuItem.iconf}`"></use>
+                  </svg>
+                  <span class="lan-3">
+                      {{ menuItem.title }}
+                  </span>
+                  <div class="according-menu" v-if="menuItem.children">
+                      <i class="fa fa-angle-right pull-right"></i>
+                  </div>
+              
+              </a>
+
+              <RouterLink :to="menuItem.path" class="sidebar-link sidebar-title" v-if="menuItem.type == 'link'"
+                  :class="{ 'active': menuItem.active }" v-on:click="hidesecondmenu()"
+                  @click="setNavActive(menuItem, index)">
+                  <svg class="stroke-icon">
+                      <use :xlink:href="require('@/assets/svg/icon-sprite.svg') + `#${menuItem.icon}`"></use>
+                  </svg>
+                  <svg class="fill-icon">
+                      <use :xlink:href="require('@/assets/svg/icon-sprite.svg') + `#${menuItem.iconf}`"></use>
+                  </svg>
+                  <span>
+                      {{ menuItem.title }}
+                  </span>
+                  <i class="fa fa-angle-right pull-right" v-if="menuItem.children"></i>
+              </RouterLink>
+
+              <ul class="sidebar-submenu" v-if="menuItem.children" :class="{ 'menu-open': menuItem.active }"
+                    :style="{ display: menuItem.active ? '' : 'none' }">
+
+                    <li v-for="(childrenItem, index) in menuItem.children" :key="index">
+                      <RouterLink class="lan-4" :class="{ 'active': childrenItem.active }" :to="childrenItem.path"
+                          v-if="childrenItem.type == 'link'" @click="setNavActive(childrenItem, index)"
+                          v-on:click="hidesecondmenu()">
+                          {{ (childrenItem.title) }}
+                          <label :class="'badge badge-' + childrenItem.badgeType + ' pull-right'"
+                              v-if="childrenItem.badgeType">{{ (childrenItem.badgeValue) }}</label>
+                          <i class="fa fa-angle-right pull-right mt-1" v-if="childrenItem.children"></i>
+                      </RouterLink>
+                    </li>
+
+
+              </ul>
+
             </li>
-            <li class="sidebar-list">
+            
+            <!-- <li class="sidebar-list">
               <label class="badge badge-light-primary"></label>
 
               <RouterLink to="/" class="sidebar-link sidebar-title">
@@ -35,19 +86,19 @@
                 <span class="lan-3">Dashboard              </span>
               </RouterLink>
 
-            </li>
-            <li class="sidebar-list">
-              <!-- <a class="sidebar-link sidebar-title" href="https://pixelstrap.freshdesk.com/support/home" target="_blank"> -->
-                <RouterLink to="/report/google" class="sidebar-link sidebar-title">
+            </li> -->
+            <!-- <li class="sidebar-list"> -->
+              <!-- <a class="sidebar-link sidebar-title" href="https://pixelstrap.freshdesk.com/support/home" target="_blank"> --> <!-- baris ini tetap comment -->
+                <!-- <RouterLink to="/report/apexChart" class="sidebar-link sidebar-title">
                   <svg class="stroke-icon">
                     <use href="@/assets/svg/icon-sprite.svg#stroke-form"></use>
                   </svg>
                   <svg class="fill-icon">
                     <use href="@/assets/svg/icon-sprite.svg#fill-form"></use>
                   </svg><span>Report</span>
-                </RouterLink>
-              <!-- </a> -->
-            </li>
+                </RouterLink> -->
+              <!-- </a> --> <!-- baris ini tetap comment -->
+            <!-- </li>
             <li class="sidebar-list">
               <RouterLink to="/log" class="sidebar-link sidebar-title">
                 <svg class="stroke-icon">
@@ -67,7 +118,7 @@
                   <use href="@/assets/svg/icon-sprite.svg#fill-internationalization"></use>
                 </svg><span>Settings                                    </span>
               </RouterLink>
-            </li>
+            </li> -->
 
           </ul>
         </div>

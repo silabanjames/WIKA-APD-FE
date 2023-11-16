@@ -29,8 +29,9 @@
 
         <div>
           <!-- <img src="" alt=""> -->
+
           <div class="bg-secondary mt-3" id="videoMonitor" style="width: 100%;">
-            
+
           </div>
         </div>
 
@@ -41,6 +42,8 @@
 <script>
 import GalleryModal from "../galleryModal/galleryModal"
 import GalleryModal2 from "../galleryModal/galleryModal2.vue"
+import { io } from "socket.io-client"
+
 
 export default{
   data(){
@@ -64,6 +67,7 @@ export default{
     }
   },
   components: {
+
     GalleryModal,
     GalleryModal2
   },
@@ -80,6 +84,26 @@ export default{
     window.addEventListener("resize", ()=> {
       videoWidth = videoMonitor.clientWidth
       videoMonitor.style.height = `${videoWidth*0.5625}px`      
+ 
+    const socket = io(process.env.VUE_APP_WEBSOCKET_URL, {
+      transports: ['websocket']
+    })
+
+    let imgChunks = [];
+
+    socket.on('connect', ()=>{
+    console.log(`You connected with id: ${socket.id}`)
+    })
+
+    socket.on('receive-video', chunk => {
+      let img = document.getElementById('display-video')
+      imgChunks.push(chunk);
+      console.log('cek data ', chunk)
+      img.setAttribute('src', 'data:image/jpg;base64,' + chunk.buffer);
+    })
+
+    socket.on('connect_error', (error)=>{
+    console.error(error)
     })
   }
 }

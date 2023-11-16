@@ -1,47 +1,45 @@
 <template>
-    <div class="col-sm-12">
+    <div class="col-sm-12 p-15 mx-auto">
       <div class="card">
-        <div class="card-header">
-          <h5>User</h5>
-          <a href="#" class="position-absolute top-50 end-0 translate-middle btn btn-info">
-            <vue-feather type="user-plus"></vue-feather> <span class="ms-1">Add User</span>
-          </a>
-        </div>
-        <div class="table-responsive">
-          <table class="table table-striped bg-primary align-middle " id="basic-1">
-            <thead class="tbl-strip-thad-bdr">
+            <div class="card-header d-flex justify-content-end">
+              <RouterLink :to="{name: 'addUser'}"  class="btn btn-primary">
+                <vue-feather type="user-plus" size="20" />
+                Add User
+              </RouterLink>
+            </div>
+        <div class="table-responsive p-3">
+          <table class="table align-items-center rounded">
+              <thead class="align-items-center text-center ">
               <tr>
-                <th scope="col" width="50px">#</th>
-                <th scope="col" tabindex="0" rowspan="1" colspan="1" style="width: 113.766px;"></th>
-                <th scope="col" tabindex="0" rowspan="1" colspan="1" style="width: 768.172px;">Name</th>
-                <th scope="col" tabindex="0" rowspan="1" colspan="1" style="width: 243.266px;"> </th>
+                <th scope="col" class="text-center bg-success-subtle text-black " style="width: 8%;" ><h5>#</h5></th>
+                <th scope="col" rowspan="1" colspan="1" class="text-center bg-success-subtle text-black w-25 text-center"><h5>Image</h5></th>
+                <th scope="col" tabindex="0" rowspan="1" colspan="1" class="text-center bg-success-subtle text-black w-50"><h5>Name</h5></th>
+                <th scope="col" tabindex="0" rowspan="1" colspan="1" class="text-center bg-success-subtle text-black w-25"> </th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, index) in bootstraplist" :key="index" >
-                <td scope="row" >
+                <td scope="row" class="text-center" >
                   {{ item.id }}
                 </td>
-                <td>
-                  <img :src="getImageUrl('user/2.jpg')" alt="">
+                <td class="text-center">
+                  <img :src="getImageUrl('user/2.jpg')" alt="" class="">
                 </td>
-                <td>
-                  <h5>
+                <td class="col text-center">
+                  <h5 class=" text-justify">
                     {{ item.lastName }}
                   </h5>
-                  <span>
+                  <span class="text-justify">
                     {{ item.userName }}
                   </span>
                 </td>
                 <td>
-                  <button class="btn btn-info btn-xs" type="button"
-                  data-original-title="btn btn-danger btn-xs" title="">
-                    <vue-feather type="edit"></vue-feather>
-                  </button>
-                  <button class="btn btn-danger btn-xs ms-1" type="button"
-                  data-original-title="btn btn-danger btn-xs" title="">
-                    <vue-feather type="trash-2"></vue-feather>
-                  </button>
+                  <div class="flex">
+                    <RouterLink :to="{name: 'editUser'}">
+                      <vue-feather type="edit" stroke="green" />
+                    </RouterLink>
+                    <vue-feather type="trash-2" stroke="red" />
+                  </div>
                 </td>
 
               </tr>
