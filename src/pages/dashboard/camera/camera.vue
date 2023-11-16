@@ -11,16 +11,16 @@
               <option value="c02">Camera_002</option>
               <option value="c03">Camera_003</option>
             </select>
-            <button class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">GALLERY</button>
+            
+            <!-- <button class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">GALLERY</button>
             <div class="modal fade" id="exampleModalCenter" aria-hidden="true">
               <GalleryModal />
-            </div>
-
-            <!-- <button class="btn btn-info" type="button" @click="toggleModal">GALLERY</button>
-            <div class="mdl-fade" v-if="showModal">
-              <GalleryModal2 @close="toggleModal" />
             </div> -->
 
+            <button class="btn btn-info" type="button" @click="toggleModal">GALLERY</button>
+            <div class="mdl-fade" v-if="showModal">
+              <GalleryModal2 @close="toggleModal" />
+            </div>
 
           </div>
         </div>

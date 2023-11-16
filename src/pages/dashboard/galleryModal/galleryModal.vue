@@ -12,9 +12,9 @@
         <div class="modal-body row">
           <div class="col-lg-9 d-flex">
 
-            <!-- <div class="position-relative bg-secondary" id="canvas-container" style="width: 100%; padding-top: 56.25%;"> -->
-              <canvas class="position-absolute" id="canvas" style="width: 100%;" ></canvas>
-            <!-- </div> -->
+            <div class="bg-secondary" id="canvas-container" style="width: 100%;">
+              <canvas class="position-absolute border border-5" id="canvas" style="width: 100%;" ></canvas>
+            </div>
           
           </div>
           <div class="col-lg-3 d-flex flex-column">
@@ -89,6 +89,15 @@ export default{
     }
   },
   mounted(){
+    const canvasContainer = document.getElementById('canvas-container');
+    console.log(canvasContainer.clientWidth)
+
+    window.addEventListener("resize", ()=> {
+      const boxWidth = canvasContainer.clientWidth
+      console.log('cek nilai boxWidht: ', boxWidth)
+      canvasContainer.style.height = `${boxWidth*0.5625}px`
+    })
+
     /*
     * picker configuration
     */
@@ -110,7 +119,6 @@ export default{
     */
 
 				// do something after the dom has updated
-        // let canvasContainer = document.getElementById('canvas-container');
     
         // let containerWidth = canvasContainer.clientWidth;
         // let containerHeight = canvasContainer.clientHeight;
@@ -128,8 +136,8 @@ export default{
         // canvas.setHeight(document.getElementById('canvas-container').clientHeight)
         fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
         image.onload = function () {
-          canvas.setWidth(image.width)
-          canvas.setHeight(image.height)
+          // canvas.setWidth(image.width)
+          // canvas.setHeight(image.height)
           console.log(image.width)
           console.log(image.height)
           canvas.setBackgroundImage(

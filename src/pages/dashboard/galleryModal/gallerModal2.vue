@@ -1,54 +1,59 @@
 <template>
-    <div class="mdl d-flex position-fixed position-absolute top-50 start-50 translate-middle w-75" >
-      <div class="w-100 px-3 py-4 rounded bg-dark">
-        <div class="d-flex flex-column align-items-start w-auto pb-1">
-          <h5 class="fw-bold py-1 m-0">GALLERY</h5>
-          <div class="w-100 d-flex justify-content-between">
-            <div class="small text-secondary">CCTV View & Image Tagging</div>
-            <div class="small text-secondary">dd/mm/yyyy 08:00:00 - CCTV 1</div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-9">
-
-            <div class="bg-secondary" id="canvas-container2" style="width: 100%; padding-top: 56.25%;">
-              <canvas class=" top-0 start-0" id="canvas2" style="background-color: aqua; width: 100%; height: 100%;"></canvas>
-            </div>
+    <!-- <div class="mdl position-fixed top-50 start-50 translate-middle vw-100 vh-100" > -->
+    <div class="mdl position-fixed top-0 start-0 vw-100 vh-100 overflow-auto d-flex align-items-center justify-content-center" id="mdl">
+      <div class="mdl-content position-relative w-75 h-auto shadow-sm">
+        <div class="px-3 py-4 bg-white rounded">
           
-          </div>
-          <div class="col-lg-3 d-flex flex-column">
-
-            <div class="colorPicker2 d-flex justify-content-center pb-2 pt-lg-0 pt-2" id="colorPicker2" style="width: 100%;"></div>
-
-            <!-- Tag -->
-            <div class="tag my-1">
-              <div class="tag-header p-1">
-                Tag
-              </div>
-              <div class="p-1">
-                <div class="d-flex justify-content-between bg-success p-2 rounded-2 my-1 ">
-                  <span class="fw-semibold text-black">Productive</span>
-                  <span class="bg-white px-2 rounded-pill text-black">7</span>
-                </div>
-                <div class="d-flex justify-content-between bg-warning p-2 rounded-2 my-1 ">
-                  <span class="fw-semibold text-black">Semi Productive</span>
-                  <span  class="bg-white px-2 rounded-pill text-black">7</span>
-                </div>
-                <div class="d-flex justify-content-between bg-danger p-2 rounded-2 my-1 ">
-                  <span class="fw-semibold text-white">Non Productive</span>
-                  <span  class="bg-white px-2 rounded-pill text-black">7</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Modal Button -->
-            <div class="d-flex flex-wrap justify-content-between mt-auto">
-              <!-- <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button> -->
-              <button class="btn btn-secondary" type="button" @click="closeModal">Close</button>
-              <button class="btn btn-primary" type="button">Save changes</button>
+          <div class="d-flex flex-column align-items-start w-auto pb-1">
+            <h5 class="fw-bold py-1 m-0">GALLERY</h5>
+            <div class="w-100 d-flex justify-content-between">
+              <div class="small text-secondary">CCTV View & Image Tagging</div>
+              <div class="small text-secondary">dd/mm/yyyy 08:00:00 - CCTV 1</div>
             </div>
           </div>
+  
+          <div class="row">
+            <div class="col-lg-9">
+  
+              <div class="bg-secondary" id="canvas-container2" style="width: 100%;">
+                <canvas class=" top-0 start-0 border border-2" id="canvas2" style="width: 100%; height: 100%;"></canvas>
+              </div>
+            
+            </div>
+            <div class="col-lg-3 d-flex flex-column">
+  
+              <div class="colorPicker2 d-flex justify-content-center pb-2 pt-lg-0 pt-2" id="colorPicker2" style="width: 100%;"></div>
+  
+              <!-- Tag -->
+              <div class="tag my-1">
+                <div class="tag-header p-1">
+                  Tag
+                </div>
+                <div class="p-1">
+                  <div class="d-flex justify-content-between bg-success p-2 rounded-2 my-1 ">
+                    <span class="fw-semibold text-black">Productive</span>
+                    <span class="bg-white px-2 rounded-pill text-black">7</span>
+                  </div>
+                  <div class="d-flex justify-content-between bg-warning p-2 rounded-2 my-1 ">
+                    <span class="fw-semibold text-black">Semi Productive</span>
+                    <span  class="bg-white px-2 rounded-pill text-black">7</span>
+                  </div>
+                  <div class="d-flex justify-content-between bg-danger p-2 rounded-2 my-1 ">
+                    <span class="fw-semibold text-white">Non Productive</span>
+                    <span  class="bg-white px-2 rounded-pill text-black">7</span>
+                  </div>
+                </div>
+              </div>
+  
+              <!-- Modal Button -->
+              <div class="d-flex flex-wrap justify-content-between mt-2">
+                <!-- <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button> -->
+                <button class="btn btn-secondary mb-1" type="button" @click="closeModal">Close</button>
+                <button class="btn btn-primary mb-1" type="button">Save changes</button>
+              </div>
+            </div>
+          </div>
+
         </div>
 
       </div>
@@ -80,6 +85,11 @@
 
 .mdl{
   z-index: 100;
+  background: rgba(60, 65, 75, 0.75);
+}
+
+.mdl-content {
+  height: 90%;
 }
 </style>
 
@@ -90,15 +100,28 @@ import { fabric } from 'fabric';
 export default{
   data(){
     return {
-      color: ''
+      color: '',
+      check: "text"
     }
   },
   methods: {
     closeModal(){
       this.$emit('close')
+    },
+    checkMethod(){
+      console.log('check')
     }
   },
   mounted(){
+    // Close modal by click outside
+    const outerModal = document.querySelector('#mdl')
+    const closeModal = this.closeModal
+    window.onclick = function(event) {
+      if (event.target == outerModal) {
+        closeModal()
+      }
+    }
+    
     /*
     * picker configuration
     */
@@ -119,20 +142,53 @@ export default{
     * Fabric JS Configuration
     */
 				// do something after the dom has updated
-        let canvasContainer = document.getElementById('canvas-container2');
-    
-        // let containerWidth = canvasContainer.clientWidth;
-        // let containerHeight = canvasContainer.clientHeight;
-    
+        const canvasContainer = document.getElementById('canvas-container2');
+        let boxWidth = canvasContainer.clientWidth
+        canvasContainer.style.height = `${boxWidth*0.5625}px`
+        
         let canvas = new fabric.Canvas('canvas2', { 
           selection: false,
         });
-        console.log(canvasContainer)
-        console.log(canvasContainer.clientHeight)
-        // canvas.setWidth(document.getElementById('canvas-container2').clientWidth)
-        // canvas.setHeight(document.getElementById('canvas-container2').clientHeight)
+
+        canvas.setWidth(canvasContainer.clientWidth)
+        canvas.setHeight(canvasContainer.clientHeight)
         fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
-    
+
+        // Resize canvas, canvasContainer, and Image while window is resize
+        window.addEventListener("resize", ()=> {
+          boxWidth = canvasContainer.clientWidth
+          canvasContainer.style.height = `${boxWidth*0.5625}px`
+
+          canvas.setWidth(canvasContainer.clientWidth)
+          canvas.setHeight(canvasContainer.clientHeight)
+
+          fabric.Image.fromURL( 
+            require('../../../assets/images/dummyImage1.jpg'), 
+            function(img){
+            img.set({
+              originX: 'left',
+              originY: 'top',
+              scaleX: canvas.getWidth() / img.width,
+              scaleY: canvas.getHeight() / img.height
+            })
+            canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
+          })
+        })
+        
+        // Set Image Background
+        fabric.Image.fromURL( 
+          require('../../../assets/images/dummyImage1.jpg'), 
+          function(img){
+          img.set({
+            originX: 'left',
+            originY: 'top',
+            scaleX: canvas.getWidth() / img.width,
+            scaleY: canvas.getHeight() / img.height
+          })
+          canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
+        })
+
+
         let circle, line;
         let isDone = false;
         let isOver = false;
