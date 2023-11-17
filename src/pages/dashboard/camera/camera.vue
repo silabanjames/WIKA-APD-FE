@@ -85,25 +85,26 @@ export default{
       videoWidth = videoMonitor.clientWidth
       videoMonitor.style.height = `${videoWidth*0.5625}px`      
  
-    const socket = io(process.env.VUE_APP_WEBSOCKET_URL, {
-      transports: ['websocket']
-    })
+      const socket = io(process.env.VUE_APP_WEBSOCKET_URL, {
+        transports: ['websocket']
+      })
 
-    let imgChunks = [];
+      let imgChunks = [];
 
-    socket.on('connect', ()=>{
-    console.log(`You connected with id: ${socket.id}`)
-    })
+      socket.on('connect', ()=>{
+      console.log(`You connected with id: ${socket.id}`)
+      })
 
-    socket.on('receive-video', chunk => {
-      let img = document.getElementById('display-video')
-      imgChunks.push(chunk);
-      console.log('cek data ', chunk)
-      img.setAttribute('src', 'data:image/jpg;base64,' + chunk.buffer);
-    })
+      socket.on('receive-video', chunk => {
+        let img = document.getElementById('display-video')
+        imgChunks.push(chunk);
+        console.log('cek data ', chunk)
+        img.setAttribute('src', 'data:image/jpg;base64,' + chunk.buffer);
+      })
 
-    socket.on('connect_error', (error)=>{
-    console.error(error)
+      socket.on('connect_error', (error)=>{
+      console.error(error)
+      })
     })
   }
 }
