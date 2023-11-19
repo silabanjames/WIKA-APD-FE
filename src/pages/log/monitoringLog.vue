@@ -119,6 +119,8 @@
 </template>
 
 <script>
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 import { mapState, mapGetters } from 'vuex';
 import FilterData from './filter.vue'
 export default {
@@ -137,9 +139,7 @@ export default {
         },
         deleteTrack(id){
             this.$store.commit('log/deleteTrack', id);
-            // this.$toast.show(' One Record has been deleted.', {
-            //     theme: 'outline', position: 'top-right', type: 'success', duration: 2000
-            // });
+            toast("Data telah dihapus.", {autoClose: 1000, type: 'success'}); // ToastOptions
         }
     },
 

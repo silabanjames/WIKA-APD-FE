@@ -26,7 +26,7 @@
         data() {
             return {
                 series: [{
-                    name: "STOCK ABC",
+                    name: "Chart 1",
                     data: chart.monthDataSeries1.prices,
                 }, ],
                 chartOptions: {
