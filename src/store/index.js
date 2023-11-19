@@ -9,6 +9,7 @@ import editUser from './modules/editUser'
 import bootstrap from './modules/bootstrap';
 
 import log from './modules/log'
+import dashboard from './modules/dashboard'
 // import chat from './modules/chat';
 // import product from './modules/product';
 // import email from './modules/email';
@@ -55,6 +56,7 @@ export default createStore({
       addUser,
       editUser,
       bootstrap,
+      dashboard,
       log,
     }
 });

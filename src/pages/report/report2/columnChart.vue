@@ -49,7 +49,7 @@
                     plotOptions: {
                         bar: {
                             horizontal: false,
-                            e̶n̶d̶i̶n̶g̶S̶h̶a̶p̶e̶: 'rounded',
+                            // e̶n̶d̶i̶n̶g̶S̶h̶a̶p̶e̶: 'rounded',
                             borderRadius: 6,
                             columnWidth: '55%',
                         },

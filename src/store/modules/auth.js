@@ -27,9 +27,9 @@ const mutations = {
     handleLogin(state, data){
         // state.user.id = data.id
         state.user.name = data.name
-        state.user.role = data.role
         state.user.email.value = data.email
         state.user.password.value = ''
+        state.user.role = data.role
     },
     handleLogOut(state){
         // Reset user data
@@ -66,7 +66,8 @@ const actions = {
             data => {
                 const token = data.access_token
                 sessionStorage.setItem('token', token)
-                axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                console.log(token)
+                axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token');
 
                 context.commit('handleLogin', data.user_information)
                 console.log('true')
@@ -96,18 +97,12 @@ const actions = {
     },
     handleLogOut(context){
         let confirmation = confirm("Apakah anda yakin ingin keluar dari aplikasi?")
-
         if(confirmation){
             sessionStorage.removeItem('token')
-            delete axiosInstance.defaults.headers.common["Authorization"];
-            
-            // reset the data
             context.commit('handleLogOut')
-
             router.push('/auth/login')
         }
-    },
-    
+    }
 }
 
 export default {

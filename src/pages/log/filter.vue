@@ -16,11 +16,10 @@
                 <div class="mb-3">
                   <label class="form-label" for="formControl30"><h6>Filter</h6></label>
                   <select class="form-select digits" id="formControl30">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    <option value="" selected disabled hidden>Equipment</option>
+                    <option>Helm</option>
+                    <option>Vest</option>
+                    <option>Boots</option>
                   </select>
                 </div>
               </div>

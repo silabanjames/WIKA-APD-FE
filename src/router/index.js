@@ -6,9 +6,6 @@ import login from '../auth/login.vue'
 import register from "../auth/register.vue";
 
 // Report
-import google_chart from "../pages/report/googleChart/google_chart"
-import apex_chart from "../pages/report/ApexChart/apex_chart"
-import chartist_chart from "../pages/report/chartist/chartist_chart.vue"
 import chart1 from "../pages/report/report1/chart1.vue"
 import chart2 from "../pages/report/report2/chart2.vue"
 

@@ -42,6 +42,10 @@ const mutations = {
 };
 
 const actions={
+    /*
+    * Get Data
+    * Gunakan di mounted pada @/pages/log/monitoringLog.vue
+    */
     async getRequestData(context){
         /*
         * Edit 'track_information' untuk mendapatkan data
@@ -49,9 +53,21 @@ const actions={
         await axiosInstance.get('/log')
         .then(res => res.data)
         .then(data => {
-            context.commit('getRequestData', data.track_information)
+            context.commit('/log/getRequestData', data)
         })
         .catch( err => console.log(err) )
+    },
+    /*
+    * Delete data function
+    */
+    async deleteTrack(context, {id}){
+        if(confirm("Apakah yakin ingin menghapus data?")){
+            await axiosInstance.delete(`log/delete-data/${id}`)
+            .then(res => res.data)
+            .then(data => {
+                context.commit('log/deleteTrack', id)
+            })
+        }
     }
 }
 
