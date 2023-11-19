@@ -118,9 +118,10 @@ const routes =[
             }
           },
           {
-            path: 'edit-user',
+            path: 'edit-user/:id',
             name: 'editUser',
             component: editUser,
+            props: true,
             meta: {
               requiresAuth: true
             }

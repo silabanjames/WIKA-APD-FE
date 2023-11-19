@@ -47,7 +47,10 @@ const actions={
     * Gunakan di mounted pada @/pages/log/monitoringLog.vue
     */
     async getRequestData(context){
-        await axiosInstance.get('/log/get-log')
+        /*
+        * Edit 'track_information' untuk mendapatkan data
+        */
+        await axiosInstance.get('/log')
         .then(res => res.data)
         .then(data => {
             context.commit('/log/getRequestData', data)

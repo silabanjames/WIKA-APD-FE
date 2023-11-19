@@ -35,7 +35,7 @@
                 </td>
                 <td>
                   <div class="flex">
-                    <RouterLink :to="{name: 'editUser'}">
+                    <RouterLink :to="{name: 'editUser', params: {id: item.id}, }" userId="test">
                       <vue-feather type="edit" stroke="green" />
                     </RouterLink>
                     <vue-feather type="trash-2" stroke="red" />

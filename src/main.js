@@ -11,11 +11,13 @@ import en from './locales/en.json';
 import pt from './locales/fr.json';
  import fr from './locales/pt.json';
 import es from './locales/es.json';
+import DropZone from "dropzone-vue";
 import { defaultLocale, localeOptions } from './constants/config';
 import Breadcrumbs from './components/bread_crumbs';
 import Vue3Toasity from 'vue3-toastify';
 
 const messages = { en: en, es: es, pt: pt, fr: fr};
- const locale = (localStorage.getItem('currentLanguage') && localeOptions.filter(x => x.id === localStorage.getItem('currentLanguage')).length > 0) ? localStorage.getItem('currentLanguage') : defaultLocale;
+const locale = (localStorage.getItem('currentLanguage') && localeOptions.filter(x => x.id === localStorage.getItem('currentLanguage')).length > 0) ? localStorage.getItem('currentLanguage') : defaultLocale;
 
-createApp(App).use(Vue3Toasity,{limit: 2}).use(router).use(store).component("apexchart", VueApexCharts).component(VueFeather.name, VueFeather).component('Breadcrumbs', Breadcrumbs).mount('#app')
+createApp(App).use(Vue3Toasity,{limit: 2}).use(DropZone).use(router).use(store).component("apexchart", VueApexCharts).component(VueFeather.name, VueFeather).component('Breadcrumbs', Breadcrumbs).mount('#app')
+
