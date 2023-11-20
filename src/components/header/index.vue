@@ -1,7 +1,7 @@
 <template>
   <div class="header-wrapper row m-0">
-    <SearchBar />
-    <Logo />
+    <!-- <SearchBar />
+    <Logo /> -->
 
     <!-- <div class="left-header col-xxl-5 col-xl-6 col-lg-5 col-md-4 col-sm-3 p-0"> -->
       <!-- <div class="notification-slider"> -->
@@ -46,11 +46,19 @@
 
           <Bookmark v-bind:activeclass="bookmark" />
         </li> -->
-        <li>
+        <!-- <li>
           <Mode />
-        </li>
+        </li> -->
         <!-- <Cart />
         <Notifications /> -->
+
+        <li>
+          <div class="media-body text-end switch-sm">
+            <label class="switch">
+              <input type="checkbox"><span class="switch-state"></span>
+            </label>
+          </div>
+        </li>
 
         <Profile />
       </ul>

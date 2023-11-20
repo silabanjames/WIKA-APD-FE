@@ -28,11 +28,7 @@
         </div>
 
         <div>
-          <!-- <img src="" alt=""> -->
-
-          <div class="bg-secondary mt-3" id="videoMonitor" style="width: 100%;">
-
-          </div>
+          <div class="bg-secondary mt-3" id="videoMonitor" style="width: 100%;"></div>
         </div>
 
       </div>

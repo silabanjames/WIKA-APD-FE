@@ -6,7 +6,8 @@
       "icon": "stroke-home",
       "iconf":"fill-home",
       "type": "link",
-      "active": false
+      "active": false,
+      "admin": false
     },
     {
       "title": "Report",
@@ -14,18 +15,21 @@
       "iconf":"fill-form",
       "type": "sub",
       "active": false,
+      "admin": false,
       "children": [
         {
           "path": "/report/chart1",
           "title": "Chart 1",
           "type": "link",
-          "active":false
+          "active":false,
+          "admin": false
         },
         {
           "path": "/report/chart2",
           "title": "Chart 2",
           "type": "link",
-          "active":false
+          "active":false,
+          "admin": false
         }
       ]
     },
@@ -35,7 +39,8 @@
       "icon": "stroke-learning",
       "iconf":"fill-learning",
       "type": "link",
-      "active": false
+      "active": false,
+      "admin": false
     },
     {
       "path": "/settings",
@@ -43,7 +48,8 @@
       "icon": "stroke-internationalization",
       "iconf":"fill-internationalization",
       "type": "link",
-      "active": false
+      "active": false,
+      "admin": true
     }
 
   ]}
