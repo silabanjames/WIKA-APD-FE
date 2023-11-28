@@ -6,11 +6,11 @@ const state = {
         id: '',
         name: '',
         email: {
-            value: '',
+            value: 'super@admin.com',
             errormsg: ''
         },
         password: {
-            value: '',
+            value: 'Superadmin123',
             errormsg: ''
         },
         role: '',
@@ -29,7 +29,7 @@ const mutations = {
         state.user.name = data.name
         state.user.email.value = data.email
         state.user.password.value = ''
-        state.user.role = data.role
+        // state.user.role = data.role
     },
     handleLogOut(state){
         // Reset user data
@@ -57,7 +57,7 @@ const actions = {
     handleLogin(context){
         const email = context.getters.getEmail
         const password = context.getters.getPassword
-        return axiosInstance.post('/auth/sign-in', {
+        return axiosInstance.post('/auth/login', {
             email,
             password
         })
@@ -79,12 +79,13 @@ const actions = {
             return false
         })
     },
-    handleRegister(context, {first_name, last_name, email, password}){
+    handleRegister(context, {first_name, last_name, email, password, confirmPassword}){
         let name = first_name + " " + last_name
-        axiosInstance.post('/auth/sign-up', {
+        axiosInstance.post('/auth/register', {
             name,
             email,
-            password
+            password,
+            confirmPassword
         })
         .then( () => {
             router.push('/auth/login')
