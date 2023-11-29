@@ -66,7 +66,7 @@
                     :to="{ name: 'editUser', params: { id: item.id } }"
                     userId="test"
                   >
-                    <vue-feather type="edit" stroke="green" />
+                    <vue-feather type="edit" stroke="green" @click="editUser(item.id)"/>
                   </RouterLink>
                   <vue-feather type="trash-2" stroke="red" @click="confirmationRemove(item.id)" class="hover-pointer"/>
                 </div>
@@ -107,7 +107,7 @@ export default {
       // Use SweetAlert or any other confirmation dialog library here
       const confirmResult = await Swal.fire({
         title: 'Are you sure?',
-        text: 'You will not be able to recover this user!',
+        text: 'Delete permanent this user ?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#d33',
@@ -141,6 +141,7 @@ export default {
         });
       }
     },
+    
     
   },
 };
