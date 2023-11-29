@@ -53,6 +53,8 @@
   <script>
   import { mapState } from 'vuex';
   import getImage from "@/mixins/getImage"
+  import { reactive } from 'vue'
+  import axiosInstance from '@/lib';
   export default {
     mixins: [getImage],
     computed: {
@@ -60,5 +62,19 @@
         bootstraplist: state => state.bootstrap.bootstrap
       })
     },
+    methods: {
+      async getData(){
+        try {
+          const res = await axiosInstance.get(`${BASE_URL_API}/user`)
+          console.log(res.data)
+        } catch (error) {
+          console.log(error)
+        }
+
+      },
+    },
+    mounted: {
+      
+    }
   }
   </script>
