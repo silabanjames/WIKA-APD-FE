@@ -91,17 +91,17 @@ mounted(){
     let imgChunks = [];
 
     socket.on('connect', ()=>{
-    console.log(`You connected with id: ${socket.id}`)
+    // console.log(`You connected with id: ${socket.id}`)
     })
 
-    socket.on('video_channel', chunk => {
+    socket.on(`${process.env.VUE_APP_SOCKET_URL_CAHNNEL1}`, chunk => {
       let img = document.getElementById('display-video')
       imgChunks.push(chunk);
       // console.log('cek data ', chunk)
       img.setAttribute('src', 'data:image/jpg;base64,' + chunk.buffer);
     })
 
-    socket.on('video_counting', data => {
+    socket.on(`${process.env.VUE_APP_SOCKET_URL_CAHNNEL2}`, data => {
       console.log(`hasil data counting:`)
       console.log(data)
     })  

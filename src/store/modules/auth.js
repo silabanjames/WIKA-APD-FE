@@ -6,11 +6,11 @@ const state = {
         id: '',
         name: '',
         email: {
-            value: 'super@admin.com',
+            value: '',
             errormsg: ''
         },
         password: {
-            value: 'Superadmin123',
+            value: '',
             errormsg: ''
         },
         role: '',
@@ -64,12 +64,12 @@ const actions = {
         .then(res => res.data)
         .then(
             data => {
-                const token = data.access_token
+                const token = data.token
                 sessionStorage.setItem('token', token)
                 console.log(token)
                 axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token');
 
-                context.commit('handleLogin', data.user_information)
+                // context.commit('handleLogin', data.user_information)
                 console.log('true')
                 return true
             }
