@@ -23,7 +23,14 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Password Confirmation</label>
-                                    <input class="form-control" type="password" placeholder="Password Confirmation" />
+                                    <input class="form-control" type="password" placeholder="Password Confirmation" v-model="confirmPassword"/>
+                                </div>
+                                <div class="mb-3 d-block">
+                                    <label class="form-label me-3"> Role </label>
+                                    <select name="role" v-model="role">
+                                        <option value="worker">worker</option>
+                                        <option value="admin">admin</option>
+                                    </select>
                                 </div>
                                 <div class="mb-3 d-grid">
                                     <button class="btn btn-primary">Submit</button>
@@ -57,10 +64,6 @@ img{
 
 .dropzone__item{
     position: relative;
-}
-
-.dropzone__item-controls{
-
 }
 
 i.gg-close{
@@ -101,15 +104,18 @@ i.gg-close::after{
 
 <script>
 import getImage from "@/mixins/getImage"
+import Swal from 'sweetalert2'
 export default {
     mixins: [getImage],
     data() {
         return {
-            imageUrl: "../../../assets/upload-image.png",
-            file: "",
+            // imageUrl: "../../../assets/upload-image.png",
+            // file: "",
             name: "",
             email: "",
-            password: ""
+            password: "",
+            confirmPassword: "",
+            role: ""
         };
     },
     methods: {
@@ -144,12 +150,18 @@ export default {
         },
         submitForm(){
             const formData = new FormData();
-            formData.append('file', this.file)
+            // formData.append('file', this.file)
             formData.append('name', this.name)
             formData.append('email', this.email)
             formData.append('password', this.password)
+            formData.append('confirmPassword', this.confirmPassword)
+            formData.append('role', this.role)
             const handleAddUser = this.$store.dispatch('addUser/handleAddUser', {formData})
             
+            Swal.fire({
+                title: "User Created Successfully !",
+                icon: "success"
+            })
             this.$router.push('/settings')
 
             /*
