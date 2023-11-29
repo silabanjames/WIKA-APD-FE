@@ -111,6 +111,7 @@ export default {
         return {
             // imageUrl: "../../../assets/upload-image.png",
             // file: "",
+            // id: "",
             name: "",
             email: "",
             password: "",

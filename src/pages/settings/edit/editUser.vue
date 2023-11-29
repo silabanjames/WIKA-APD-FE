@@ -78,7 +78,7 @@ export default {
             formData.append('email', this.email)
             this.$store.dispatch('editUser/handleEditUser', formData)
             this.$router.push('/settings')
-        },
+        },        
         addFile() {
             // Add a file to the Dropzone
             this.$refs.dropzone.addFile(this.file);
