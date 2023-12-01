@@ -11,19 +11,19 @@
                             <div class="col-md-7 order-md-0 order-1 pe-5">
                                 <div class="mb-3">
                                     <label class="form-label">Name</label>
-                                    <input class="form-control" type="text" placeholder="Name" v-model="name"/>
+                                    <input class="form-control" type="text" placeholder="Name" v-model="name" min="6" max="20" required/>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Email</label>
-                                    <input class="form-control" type="text" placeholder="Email" v-model="email"/>
+                                    <input class="form-control" type="email" placeholder="Email" v-model="email" required/>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Password</label>
-                                    <input class="form-control" type="password" placeholder="Password" v-model="password"/>
+                                    <input class="form-control" type="password" placeholder="Password" v-model="password" required/>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Password Confirmation</label>
-                                    <input class="form-control" type="password" placeholder="Password Confirmation" v-model="confirmPassword"/>
+                                    <input class="form-control" type="password" placeholder="Password Confirmation" v-model="confirmPassword" required/>
                                 </div>
                                 <div class="mb-3 d-block">
                                     <label class="form-label me-3"> Role </label>
@@ -33,7 +33,7 @@
                                     </select>
                                 </div>
                                 <div class="mb-3 d-grid">
-                                    <button class="btn btn-primary">Submit</button>
+                                    <button class="btn btn-primary" :disabled="isFormIncomplete">Submit</button>
                                 </div>
                             </div>
                             
@@ -147,13 +147,14 @@ export default {
             */
             // this.file = event.file
             this.profilePicture = event.file
+            // console.log(event.file)
             console.log(this.$refs.dropzone)
             console.log(this.$refs.dropzone.initialFiles)
 
         },
         submitForm(){
             const formData = new FormData();
-            formData.append('file', this.file)
+            // formData.append('file', this.file)
             formData.append('profilePicture', this.profilePicture)
             formData.append('name', this.name)
             formData.append('email', this.email)
@@ -182,7 +183,16 @@ export default {
             */
         },
     },
-    mounted(){
-    }
+    computed: {
+    isFormIncomplete() {
+      return (
+        !this.name ||
+        !this.email ||
+        !this.password ||
+        !this.confirmPassword ||
+        !this.role
+      );
+    },
+  },
 };
 </script>

@@ -1,7 +1,7 @@
 import axiosInstance from '../../lib/index'
 
 const state = {
-    users_data: ""
+    users_data: []
 }
 
 const mutations = {
@@ -14,11 +14,11 @@ const mutations = {
 }
 
 const actions = {
-    getAllUser(context){
-        axiosInstance.get("/user/get-all-user")
+    async getAllUser(context){
+        await axiosInstance.get("/user")
         .then(res => res.data)
         .then(data => {
-            context.commit('settings/gettAllUsers')
+            context.commit('settings/gettAllUsers', data)
         })
         .catch(err=>console.log(err))
     },
