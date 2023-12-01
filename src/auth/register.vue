@@ -64,31 +64,31 @@
   
                       <input
                         class="form-control"
-                        :type="active?'password':'text'"
+                        :type="activePass?'password':'text'"
                         name="login[password]"
                         required=""
                         placeholder="*********"
                         v-model="password"
                       />
                       <span class="validate-error" v-if="password.lenght < 7">{{ passwordErrMsg }}</span>
-                      <div class="show-hide"><span :class="active?'show':'hide'" @click.prevent="show"> </span></div>
+                      <div class="show-hide"><span :class="activePass?'show':'hide'" @click.prevent="showPass"> </span></div>
                     </div>
                     <label class="col-form-label">Confirm Password</label>
                     <div class="form-input position-relative">
   
                       <input
                         class="form-control"
-                        :type="active?'password':'text'"
+                        :type="activeConfirmPass?'password':'text'"
                         name="login[password]"
                         required=""
                         placeholder="*********"
                         v-model="confirmPassword"
                       />
                       <span class="validate-error" v-if="password.lenght < 7">{{ passwordErrMsg }}</span>
-                      <div class="show-hide"><span :class="active?'show':'hide'" @click.prevent="show"> </span></div>
+                      <div class="show-hide"><span :class="activeConfirmPass?'show':'hide'" @click.prevent="showConfirmPass"> </span></div>
                     </div>
                   </div>
-                  <button class="btn btn-primary btn-block w-100 mt-2" type="submit">Create Account</button>
+                  <button class="btn btn-primary btn-block w-100 mt-2" type="submit" :disabled="isFormIncomplete">Create Account</button>
                   <p class="mt-4 mb-0">
                     Already have an account?
                     <router-link class="ms-2" tag="a" to="/auth/login">
@@ -108,7 +108,8 @@
 export default {
     data(){
         return{
-            active: true,
+            activePass: true,
+            activeConfirmPass: true,
             first_name: '',
             last_name: '',
             email: '',
@@ -119,9 +120,23 @@ export default {
             confirmPassword: ''
         }
     },
+    computed:{
+      isFormIncomplete() {
+      return (
+        !this.first_name ||
+        !this.last_name ||
+        !this.email ||
+        !this.password ||
+        !this.confirmPassword
+      );
+    },
+    },
     methods:{
-        show(){
-            this.active=!this.active
+        showPass(){
+            this.activePass=!this.activePass
+        },
+        showConfirmPass(){
+            this.activeConfirmPass=!this.activeConfirmPass
         },
         submitForm(){
           /*
@@ -168,6 +183,7 @@ export default {
               alert("email have been used")
             }
             else{
+              alert('you are registered')
               this.$router.push('/auth/login')
             }
           }

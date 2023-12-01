@@ -7,9 +7,9 @@
           Add User
         </RouterLink>
       </div>
-      <div class="table-responsive p-3">
+      <div class="table-responsive p-3 align-items-center">
         <table class="table align-items-center rounded">
-          <thead class="align-items-center text-center">
+          <thead class="align-items-center text-center ">
             <tr>
               <th
                 scope="col"
@@ -22,7 +22,7 @@
                 scope="col"
                 rowspan="1"
                 colspan="1"
-                class="text-center bg-success-subtle text-black w-25 text-center"
+                class="text-start bg-success-subtle text-black w-25 text-center"
               >
                 <h5>Image</h5>
               </th>
@@ -31,7 +31,7 @@
                 tabindex="0"
                 rowspan="1"
                 colspan="1"
-                class="text-center bg-success-subtle text-black w-50"
+                class="text-start bg-success-subtle text-black w-50"
               >
                 <h5>Name</h5>
               </th>
@@ -44,15 +44,15 @@
               ></th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="align-middle">
             <tr v-for="(item, index) in bootstraplist" :key="index">
               <td scope="row" class="text-center">
                 {{ index + 1 }}
               </td>
               <td class="text-center">
-                <img :src="getImageUrl('user/2.jpg')" alt="" class="" />
+                <img :src="item.profilePicture" alt="" class="rounded foto" />
               </td>
-              <td class="col text-center">
+              <td class="col text-start">
                 <h5 class="text-justify">
                   {{ item.name }}
                 </h5>
@@ -83,6 +83,7 @@
 import getImage from "@/mixins/getImage";
 import axiosInstance from "@/lib";
 import Swal from 'sweetalert2'
+import store from "@/store";
 export default {
   mixins: [getImage],
   data() {
@@ -90,7 +91,7 @@ export default {
       bootstraplist: [],
     };
   },
-  created() {
+  beforeMount() {
     this.getData();
   },
   methods: {
@@ -150,5 +151,11 @@ export default {
 <style>
 .hover-pointer{
   cursor: pointer;
+}
+
+.foto{
+  max-width: 100px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
 }
 </style>
