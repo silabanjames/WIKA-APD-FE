@@ -144,28 +144,28 @@ const router=createRouter({
 //   next('/auth/login')
 // })
 
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some((record) => record.meta.guest)) {
-//     if (sessionStorage.getItem('token')) {
-//       next(false);
-//       return;
-//     }
-//     next();
-//   } else {
-//     next();
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.guest)) {
+    if (sessionStorage.getItem('token')) {
+      next(false);
+      return;
+    }
+    next();
+  } else {
+    next();
+  }
+});
 
-// router.beforeEach((to,from, next) => {
-//   if (to.matched.some((record) => record.meta.requiresAuth)){
-//     if(sessionStorage.getItem('token')){
-//       next();
-//       return;
-//     }
-//     next('/auth/login')
-//   } else {
-//     next();
-//   }
-// })
+router.beforeEach((to,from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)){
+    if(sessionStorage.getItem('token')){
+      next();
+      return;
+    }
+    next('/auth/login')
+  } else {
+    next();
+  }
+})
 
 export default router

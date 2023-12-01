@@ -111,6 +111,7 @@ export default {
         return {
             // imageUrl: "../../../assets/upload-image.png",
             // file: "",
+            profilePicture: "",
             // id: "",
             name: "",
             email: "",
@@ -144,14 +145,16 @@ export default {
             /*
             * Menyimpan file
             */
-            this.file = event.file
+            // this.file = event.file
+            this.profilePicture = event.file
             console.log(this.$refs.dropzone)
             console.log(this.$refs.dropzone.initialFiles)
 
         },
         submitForm(){
             const formData = new FormData();
-            // formData.append('file', this.file)
+            formData.append('file', this.file)
+            formData.append('profilePicture', this.profilePicture)
             formData.append('name', this.name)
             formData.append('email', this.email)
             formData.append('password', this.password)
