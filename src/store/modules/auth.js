@@ -19,7 +19,8 @@ const state = {
 
 const getters = {
     getEmail: state => {return state.user.email.value},
-    getPassword: state => {return state.user.password.value}
+    getPassword: state => {return state.user.password.value},
+    getRole: state => (state.user.role.toLowerCase())
 }
 
 
