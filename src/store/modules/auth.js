@@ -13,7 +13,7 @@ const state = {
             value: '',
             errormsg: ''
         },
-        role: '',
+        role: sessionStorage.getItem('role'),
     }
 }
 
@@ -25,12 +25,12 @@ const getters = {
 
 
 const mutations = {
-    handleLogin(state, data){
+    handleLogin(state){
         // state.user.id = data.id
-        state.user.name = data.name
-        state.user.email.value = data.email
-        state.user.password.value = ''
-        // state.user.role = data.role
+        // state.user.name = data.name
+        // state.user.email.value = data.email
+        // state.user.password.value = ''
+        state.user.role = sessionStorage.getItem('role')
     },
     handleLogOut(state){
         // Reset user data
@@ -38,7 +38,7 @@ const mutations = {
         state.name = ''
         state.email = ''
         state.password = ''
-        state.role = ''
+        state.role = sessionStorage.getItem('role')
     },
     editEmail(state, email){
         state.user.email.value = email
@@ -67,10 +67,10 @@ const actions = {
             data => {
                 const token = data.token
                 sessionStorage.setItem('token', token)
+                sessionStorage.setItem('role', data.user.role)
                 console.log(token)
                 axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token');
-
-                // context.commit('handleLogin', data.user_information)
+                context.commit('handleLogin')
                 console.log('true')
                 return true
             }
@@ -101,6 +101,7 @@ const actions = {
         let confirmation = confirm("Apakah anda yakin ingin keluar dari aplikasi?")
         if(confirmation){
             sessionStorage.removeItem('token')
+            sessionStorage.removeItem('role')
             context.commit('handleLogOut')
             router.push('/auth/login')
         }
