@@ -6,7 +6,7 @@
                     <h5 class="card-title mb-0">Edit User </h5>
                 </div>
                 <div class="card-body">
-                    <form class="theme-form mega-form" @submit.prevent="submitForm">
+                    <form class="theme-form mega-form" @submit.prevent="editUser(id)">
                         <div class="row">
                             <div class="col-md-7 order-md-0 order-1">
                                 <div class="mb-3">
@@ -49,11 +49,17 @@
 </style>
 
 <script>
+import axiosInstance from '@/lib'
+import Swal from 'sweetalert2'
+
 export default {
     data() {
         return {
             file: "",
-            image: null
+            image: null,
+            name: "",
+            email: "",
+            id: ""
         }
     },
     props: ['id'],
@@ -71,13 +77,27 @@ export default {
         async uploaded(event){
             this.file = event.file
         },
-        submiteForm(){
-            const formData = new FormData();
-            formData.append('file', this.file)
-            formData.append('name', this.name)
-            formData.append('email', this.email)
-            this.$store.dispatch('editUser/handleEditUser', formData)
-            this.$router.push('/settings')
+        // submiteForm(){
+        //     const formData = new FormData();
+        //     // formData.append('file', this.file)
+        //     formData.append('name', this.name)
+        //     formData.append('email', this.email)
+        //     this.$store.dispatch('editUser/handleEditUser', formData)
+        //     this.$router.push('/settings')
+        // },        
+        async editUser(id){
+            try {
+                await axiosInstance.patch('/user/' + id, {
+                    name: this.name,
+                    email: this.email
+                })
+                Swal.fire({
+                    title: "User updated successfully",
+                    icon: 'success'
+                })
+            } catch (error) {
+                console.log(error)
+            }
         },
         addFile() {
             // Add a file to the Dropzone

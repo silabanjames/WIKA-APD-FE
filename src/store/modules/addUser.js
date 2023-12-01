@@ -3,7 +3,7 @@ import axiosInstance from "@/lib";
 const actions = {
     async handleAddUser(context, {formData}){
         console.log([...formData])
-        axiosInstance.post('/upload', formData , { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+        axiosInstance.post('/user', formData , { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
         .then(res=>res.data)
         .then(
             data => {

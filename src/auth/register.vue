@@ -60,7 +60,7 @@
                   </div>
                   <div class="form-group">
                     <label class="col-form-label">Password</label>
-                    <div class="form-input position-relative">
+                    <div class="form-input position-relative mb-3">
   
                       <input
                         class="form-control"
@@ -69,6 +69,20 @@
                         required=""
                         placeholder="*********"
                         v-model="password"
+                      />
+                      <span class="validate-error" v-if="password.lenght < 7">{{ passwordErrMsg }}</span>
+                      <div class="show-hide"><span :class="active?'show':'hide'" @click.prevent="show"> </span></div>
+                    </div>
+                    <label class="col-form-label">Confirm Password</label>
+                    <div class="form-input position-relative">
+  
+                      <input
+                        class="form-control"
+                        :type="active?'password':'text'"
+                        name="login[password]"
+                        required=""
+                        placeholder="*********"
+                        v-model="confirmPassword"
                       />
                       <span class="validate-error" v-if="password.lenght < 7">{{ passwordErrMsg }}</span>
                       <div class="show-hide"><span :class="active?'show':'hide'" @click.prevent="show"> </span></div>
@@ -101,7 +115,8 @@ export default {
             password: '',
             emailErrMsg: '',
             passwordErrMsg: '',
-            nameErrMsg: ''
+            nameErrMsg: '',
+            confirmPassword: ''
         }
     },
     methods:{
@@ -144,7 +159,8 @@ export default {
               first_name: this.first_name, 
               last_name: this.last_name, 
               email: this.email, 
-              password: this.password
+              password: this.password,
+              confirmPassword: this.confirmPassword
             }
             let handleRegister = this.$store.dispatch('auth/handleRegister', payload)
 

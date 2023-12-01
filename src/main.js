@@ -16,6 +16,7 @@ import { defaultLocale, localeOptions } from './constants/config';
 import Breadcrumbs from './components/bread_crumbs';
 import Vue3Toasity from 'vue3-toastify';
 
+
 const messages = { en: en, es: es, pt: pt, fr: fr};
 const locale = (localStorage.getItem('currentLanguage') && localeOptions.filter(x => x.id === localStorage.getItem('currentLanguage')).length > 0) ? localStorage.getItem('currentLanguage') : defaultLocale;
 
