@@ -38,6 +38,7 @@ const mutations = {
     },
     getRequestData(state, payload){
         state.trackingList = payload
+        console.log(trackingList)
     }
 };
 
@@ -50,12 +51,13 @@ const actions={
         /*
         * Edit 'track_information' untuk mendapatkan data
         */
-        await axiosInstance.get('/log')
-        .then(res => res.data)
-        .then(data => {
-            context.commit('/log/getRequestData', data)
-        })
-        .catch( err => console.log(err) )
+
+        try {
+            const res = await axiosInstance.get("/equipment");
+            context.dispatch("getRequestData", res.data.records)
+          } catch (error) {
+            console.log(error);
+          }
     },
     /*
     * Delete data function

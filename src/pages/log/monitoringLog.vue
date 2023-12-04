@@ -168,11 +168,11 @@ import Swal from "sweetalert2";
 export default {
   data() {
     return {
-      trackingList: [],
+      // trackingList: [],
     };
   },
   created() {
-    this.getData();
+    // this.getData();
   },
   name: "tracingList",
   components: { FilterData },
@@ -218,9 +218,11 @@ export default {
   /*
    * Uncomment untuk mendapatkan data dengna request
    */
-  // beforeMount(){
-  //     this.$store.dispatch('log/getRequestData')
-  // }
+  beforeMount(){
+      this.$store.dispatch('log/getRequestData')
+      console.log('cek tracking list')
+      console.log(this.$store.state.logs.trackingList)
+  }
 };
 </script>
 

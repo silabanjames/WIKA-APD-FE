@@ -2,11 +2,11 @@
   <li class="profile-nav onhover-dropdown pe-0 py-0">
     <div class="media profile-media">
       <div class="media-body">
-        <span>{{ $store.state.auth.user.name }}</span>
+        <span class="font-roboto">{{ $store.state.auth.user.name }}</span>
         <p class="mb-0 font-roboto"> {{ $store.state.auth.user.role }} <i class="middle fa fa-angle-down"></i>
         </p>
       </div>
-      <img class="b-r-10" src="@/assets/images/dashboard/profile.png" alt="" />
+      <img class="foto-profile rounded" :src="$store.state.auth.user.profilePicture" alt="" />
     </div>
     <ul class="profile-dropdown onhover-show-div">
       <li @click="$store.dispatch('auth/handleLogOut')">
@@ -36,3 +36,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.foto-profile{
+  max-width: 40px;
+  object-fit: cover;
+  aspect-ratio: 1/1;
+}
+</style>

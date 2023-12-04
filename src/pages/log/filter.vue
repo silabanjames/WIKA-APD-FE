@@ -1,30 +1,30 @@
 <template>
     <div class="card">
-        <form class="form theme-form">
+        <form class="form theme-form" @submit.prevent="handleClick">
           <div class="card-body">
             <div class="row">
-              <div class="col">
+              <!-- <div class="col">
                 <div class="mb-3">
                   <label class="form-label" for="exampleFormControlSelect30"><h6>Date</h6></label>
                   <div>
                     <input class="form-control" type="date" v-model="date">
                   </div>
                 </div>
-              </div>
+              </div> -->
 
               <div class="col">
                 <div class="mb-3">
                   <label class="form-label" for="formControl30"><h6>Filter</h6></label>
-                  <select class="form-select digits" id="formControl30">
+                  <select class="form-select digits" id="formControl30" v-model="filter">
                     <option value="" selected disabled hidden>Equipment</option>
-                    <option>Helm</option>
-                    <option>Vest</option>
-                    <option>Boots</option>
+                    <option value="helm">Helm</option>
+                    <option value="vest">Vest</option>
+                    <option value="boot">Boots</option>
                   </select>
                 </div>
               </div>
 
-              <div class="col">
+              <!-- <div class="col">
                 <div class="mb-3">
                   <label class="form-label" for="formControl31"><h6>Filter</h6></label>
                   <select class="form-select digits" id="formControl31">
@@ -35,20 +35,16 @@
                     <option>5</option>
                   </select>
                 </div>
-              </div>
+              </div> -->
 
-              <div class="col">
-                <button @click="handleDate">
-                  filter
-                </button>
+              <div class="col d-flex align-items-center justify-content-center">
+                <div class="mt-3">
+                  <button class="btn btn-primary m-r-10" type="submit">Search</button>
+                </div>
               </div>
 
             </div>
           </div>
-          <!-- <div class="card-footer text-end">
-            <button class="btn btn-primary m-r-10" type="submit">Submit</button>
-            <input class="btn btn-light" type="reset" value="Cancel">
-          </div> -->
         </form>
     </div>
 </template>
@@ -59,14 +55,9 @@ import axiosInstance from '@/lib'
 export default{
   data(){
     return {
-      date: null
-    }
-  },
-  watch:{
-    date(oldDate, newDate){
-      if(oldDate !== newDate){
-        this.filterData(newDate)
-      }
+      date: null,
+      filter: '',
+      monitorLogs: []
     }
   },
   computed: {
@@ -80,6 +71,18 @@ export default{
     }
   },
   methods:{
+    async handleClick(){
+      try {
+        const res = await axiosInstance.get('/equipment/filter', {
+        params: {
+          [this.filter]: true
+        }
+      })
+      console.log(res.data.records)
+      } catch (error) {
+        console.log(error)
+      }
+    },
     compareDate(dateStr){
       // Estimate the date value is string
       const date = new Date(dateStr)
