@@ -90,6 +90,9 @@ export default {
   data() {
     return {
       bootstraplist: [],
+      image: '',
+      name: '',
+      email: ''
     };
   },
   computed: {

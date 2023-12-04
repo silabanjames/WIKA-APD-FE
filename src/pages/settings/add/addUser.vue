@@ -11,7 +11,7 @@
                             <div class="col-md-7 order-md-0 order-1 pe-5">
                                 <div class="mb-3">
                                     <label class="form-label">Name</label>
-                                    <input class="form-control" type="text" placeholder="Name" v-model="name" min="6" max="20" required/>
+                                    <input class="form-control" type="text" placeholder="Name" v-model="name" required/>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Email</label>

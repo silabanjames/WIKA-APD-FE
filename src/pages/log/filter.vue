@@ -37,6 +37,12 @@
                 </div>
               </div>
 
+              <div class="col">
+                <button @click="handleDate">
+                  filter
+                </button>
+              </div>
+
             </div>
           </div>
           <!-- <div class="card-footer text-end">
@@ -48,10 +54,19 @@
 </template>
 
 <script>
+import axiosInstance from '@/lib'
+
 export default{
   data(){
     return {
-      newDateStr: this.$store.getters['log/changeDateStyle']
+      date: null
+    }
+  },
+  watch:{
+    date(oldDate, newDate){
+      if(oldDate !== newDate){
+        this.filterData(newDate)
+      }
     }
   },
   computed: {
@@ -71,6 +86,21 @@ export default{
 
       return this.date.getTime() === date.getTime()
     },
+    handleDate(){
+      this.filterData(this.date)
+    },
+    async filterData(dateParam){
+      try {
+        const res = await axiosInstance.get(`/equipment/`, {
+          params: {
+            date: dateParam
+          }
+        })
+        console.log(res)
+      } catch (error) {
+        console.log(error)
+      }
+    }
   },
 
   
