@@ -45,7 +45,8 @@
             </tr>
           </thead>
           <tbody class="align-middle">
-            <tr v-for="(item, index) in bootstraplist" :key="index">
+            <!-- <tr v-for="(item, index) in bootstraplist" :key="index"> -->
+            <tr v-for="(item, index) in users_data" :key="index">
               <td scope="row" class="text-center">
                 {{ index + 1 }}
               </td>
@@ -68,7 +69,7 @@
                   >
                     <vue-feather type="edit" stroke="green" @click="editUser(item.id)"/>
                   </RouterLink>
-                  <vue-feather type="trash-2" stroke="red" @click="confirmationRemove(item.id)" class="hover-pointer"/>
+                  <vue-feather type="trash-2" stroke="red" @click="deleteUser(item.id)" class="hover-pointer"/>
                 </div>
               </td>
             </tr>
@@ -91,59 +92,20 @@ export default {
       bootstraplist: [],
     };
   },
-  beforeMount() {
-    this.getData();
+  computed: {
+    users_data: {
+      get(){
+        return this.$store.state.settings.users_data
+      }
+    }
+  },
+  async beforeMount() {
+    await this.$store.dispatch("settings/getAllUsers")
   },
   methods: {
-    async getData() {
-      try {
-        const res = await axiosInstance.get('/user');
-        this.bootstraplist = res.data;
-        // console.log(this.bootstraplist);
-      } catch (error) {
-        console.log(error);
-      }
+    deleteUser(id){
+      this.$store.dispatch('settings/deleteUser', {id})
     },
-    async confirmationRemove(id) {
-      // Use SweetAlert or any other confirmation dialog library here
-      const confirmResult = await Swal.fire({
-        title: 'Are you sure?',
-        text: 'Delete permanent this user ?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Yes, delete it!',
-      });
-
-      if (confirmResult.isConfirmed) {
-        // User confirmed, proceed with the delete action
-        await this.removeUser(id);
-      }
-    },
-    async removeUser(id) {
-      try {
-        // Make the API call to delete the user
-        await axiosInstance.delete(`/user/${id}`);
-        // Refresh the data after successful deletion
-        this.getData();
-        // Show success message
-        Swal.fire({
-          title: 'User Deleted Successfully!',
-          icon: 'success',
-        });
-      } catch (error) {
-        // Handle error, show error message
-        console.error('Error deleting user:', error);
-        Swal.fire({
-          title: 'Error',
-          text: 'An error occurred while deleting the user.',
-          icon: 'error',
-        });
-      }
-    },
-    
-    
   },
 };
 </script>

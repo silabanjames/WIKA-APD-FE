@@ -4,12 +4,12 @@ import {createStore} from 'vuex'
 import layout from './modules/layout';
 import menu from './modules/menu';
 import auth from './modules/auth';
-import addUser from './modules/addUser';
 import editUser from './modules/editUser'
 import bootstrap from './modules/bootstrap';
 
 import log from './modules/log'
 import dashboard from './modules/dashboard'
+import settings from './modules/settings'
 // import chat from './modules/chat';
 // import product from './modules/product';
 // import email from './modules/email';
@@ -53,11 +53,11 @@ export default createStore({
       layout,
       menu,
       auth,
-      addUser,
       editUser,
       bootstrap,
       dashboard,
       log,
+      settings
     }
 });
 

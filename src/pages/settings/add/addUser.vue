@@ -44,7 +44,7 @@
                                     <input class="form-control-file d-flex m-10 text-center" type="file" @change="updateImage" />
                                 </div> -->
                                 <div class="dz-message needsclick">
-                                    <DropZone class="dropzone_scope" :maxFileSize="Number(60000000)" ref="dropzone" url="http://127.0.0.1:3000/upload" :uploadOnDrop="false" :maxFiles="1" @addedFile="uploaded" options.removeLinks="true" />
+                                    <DropZone class="dropzone_scope" :maxFileSize="Number(60000000)" ref="dropzone" :uploadOnDrop="false" :maxFiles="1" @addedFile="uploaded" options.removeLinks="true" />
                                 </div>
                             </div>
                         </div>
@@ -145,12 +145,7 @@ export default {
             /*
             * Menyimpan file
             */
-            // this.file = event.file
             this.profilePicture = event.file
-            // console.log(event.file)
-            console.log(this.$refs.dropzone)
-            console.log(this.$refs.dropzone.initialFiles)
-
         },
         submitForm(){
             const formData = new FormData();
@@ -161,26 +156,7 @@ export default {
             formData.append('password', this.password)
             formData.append('confirmPassword', this.confirmPassword)
             formData.append('role', this.role)
-            const handleAddUser = this.$store.dispatch('addUser/handleAddUser', {formData})
-            
-            Swal.fire({
-                title: "User Created Successfully !",
-                icon: "success"
-            })
-            this.$router.push('/settings')
-
-            /*
-            * Flash message
-            */
-            /*
-            if(handleAddUser){
-                // tambahkan flash message ketika sukses
-                this.$router.push('/settings')
-            }
-            else{
-                // tambahkan flash message ketika gagal
-            }
-            */
+            const handleAddUser = this.$store.dispatch('settings/handleAddUser', {formData})
         },
     },
     computed: {
