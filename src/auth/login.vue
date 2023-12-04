@@ -33,7 +33,7 @@
                       v-model="email"
                     />
                     <span
-                      class="validate-error"
+                      class="validate-error text-danger"
                       v-if="!email || !validEmail(email)"
                       >{{ emailErrMsg }}</span
                     >
@@ -49,7 +49,7 @@
                         placeholder="*********"
                         v-model="password"
                       />
-                      <span class="validate-error" v-if="password.lenght < 7">{{
+                      <span class="validate-error text-danger" v-if="password.lenght < 7">{{
                         passwordErrMsg
                       }}</span>
                       <div class="show-hide">

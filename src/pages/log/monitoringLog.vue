@@ -13,7 +13,7 @@
           <div class="card-body">
             <div class="table-responsive product-table">
               <table class="table display" id="basic-1">
-                <thead>
+                <thead class="align-middle">
                   <tr>
                     <th>No</th>
                     <th
@@ -73,7 +73,7 @@
                       Timestamp
                     </th>
                     <th
-                      class="sorting"
+                      class="sorting text-center"
                       tabindex="0"
                       aria-controls="basic-1"
                       rowspan="1"
@@ -85,12 +85,13 @@
                     </th>
                   </tr>
                 </thead>
-                <tbody>
-                  <template v-for="track in trackingList">
+                <tbody class="align-middle">
+                  <template v-for="(track, index) in trackingList" :key="index">
                     <tr v-if="!date || compareDate(track.timestamp)">
-                      <td>no.</td>
+                      <td>{{ index + 1 }}</td>
                       <td>
-                        <img :src="getImgUrl(track.image)" alt="" />
+                        <!-- <img :src="getImgUrl(track.image)" alt="" /> -->
+                        {{ track.track.isSafe }}
                       </td>
                       <td>
                         {{ track.id }}
@@ -102,7 +103,7 @@
                         {{ track.camera_location }}
                       </td>
                       <td>
-                        {{ track.jabatan }}
+                        {{ track.track.jabatan }}
                       </td>
                       <td>
                         <vue-feather
@@ -116,7 +117,7 @@
                       </td>
                       <td>
                         <vue-feather
-                          :type="track.boots ? 'check' : 'x'"
+                          :type="track.boot ? 'check' : 'x'"
                         ></vue-feather>
                       </td>
                       <td>
@@ -139,7 +140,7 @@
                           type="button"
                           data-original-title="btn btn-danger btn-xs"
                           title=""
-                          @click="deleteTrack(track.id)"
+                          @click="removeLog(track.id)"
                         >
                           <vue-feather type="x"></vue-feather>
                         </button>
@@ -161,6 +162,9 @@ import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 import { mapState, mapGetters } from "vuex";
 import FilterData from "./filter.vue";
+import axiosInstance from "@/lib";
+import Swal from "sweetalert2";
+
 export default {
   data() {
     return {
@@ -180,18 +184,31 @@ export default {
     ...mapGetters("log", ["compareDate"]),
   },
   methods: {
-    getImgUrl(path) {
-      return require("@/assets/images/ecommerce/" + path);
-    },
-    deleteTrack(id) {
-      this.$store.commit("log/deleteTrack", id);
-      toast("Data telah dihapus.", { autoClose: 1000, type: "success" }); // ToastOptions
-    },
     async getData() {
       try {
-        const res = await axiosInstance.get('/user');
-        this.bootstraplist = res.data;
-        // console.log(this.bootstraplist);
+        const res = await axiosInstance.get("/equipment");
+        this.trackingList = res.data.records;
+        // console.log(this.trackingList);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async removeLog(id) {
+      try {
+        const confirmResult = await Swal.fire({
+          title: "Are you sure?",
+          text: "Delete this data ?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#d33",
+          cancelButtonColor: "#3085d6",
+          confirmButtonText: "delete",
+        });
+        if(confirmResult.isConfirmed){
+          await axiosInstance.delete(`/equipment/${id}`);
+          toast("Data telah dihapus.", { autoClose: 1000, type: "success" }); // ToastOptions
+          this.getData();
+        }
       } catch (error) {
         console.log(error);
       }

@@ -89,6 +89,9 @@ export default {
   data() {
     return {
       bootstraplist: [],
+      image: '',
+      name: '',
+      email: ''
     };
   },
   beforeMount() {
@@ -142,7 +145,13 @@ export default {
         });
       }
     },
-    
+    async editUser(){
+      await axiosInstance.patch('/user', {
+        file: this.image,
+        name: this.name,
+        email: this.email
+      })
+    }
     
   },
 };
