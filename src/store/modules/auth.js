@@ -4,7 +4,8 @@ import router from '../../router/index'
 const state = {
     user: {
         id: '',
-        name: '',
+        name: sessionStorage.getItem('name'),
+        profilePicture: sessionStorage.getItem('profilePicture'),
         email: {
             value: '',
             errormsg: ''
@@ -31,6 +32,8 @@ const mutations = {
         // state.user.email.value = data.email
         // state.user.password.value = ''
         state.user.role = sessionStorage.getItem('role')
+        state.user.name = sessionStorage.getItem('name')
+        state.user.profilePicture = sessionStorage.getItem('profilePicture')
     },
     handleLogOut(state){
         // Reset user data
@@ -68,6 +71,8 @@ const actions = {
                 const token = data.token
                 sessionStorage.setItem('token', token)
                 sessionStorage.setItem('role', data.user.role)
+                sessionStorage.setItem('name', data.user.name)
+                sessionStorage.setItem('profilePicture', data.user.profilePicture)
                 console.log(token)
                 axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token');
                 context.commit('handleLogin')
