@@ -66,8 +66,9 @@
                   <RouterLink
                     :to="{ name: 'editUser', params: { id: item.id } }"
                     userId="test"
+                    
                   >
-                    <vue-feather type="edit" stroke="green" @click="editUser(item.id)"/>
+                    <vue-feather type="edit" stroke="green" />
                   </RouterLink>
                   <vue-feather type="trash-2" stroke="red" @click="deleteUser(item.id)" class="hover-pointer"/>
                 </div>
@@ -82,14 +83,11 @@
 
 <script>
 import getImage from "@/mixins/getImage";
-import axiosInstance from "@/lib";
-import Swal from 'sweetalert2'
-import store from "@/store";
+
 export default {
   mixins: [getImage],
   data() {
     return {
-      bootstraplist: [],
       image: '',
       name: '',
       email: ''
@@ -113,7 +111,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .hover-pointer{
   cursor: pointer;
 }

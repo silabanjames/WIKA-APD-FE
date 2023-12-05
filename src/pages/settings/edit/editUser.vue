@@ -6,7 +6,7 @@
                     <h5 class="card-title mb-0">Edit User </h5>
                 </div>
                 <div class="card-body">
-                    <form class="theme-form mega-form" @submit.prevent="editUser(id)">
+                    <form class="theme-form mega-form" @submit.prevent="submitForm(id)">
                         <div class="row">
                             <div class="col-md-7 order-md-0 order-1">
                                 <div class="mb-3">
@@ -28,8 +28,9 @@
                             </div>
 
                             <div class="col-md-5 text-center mb-3">
-                                <div class="dz-message needsclick">
-                                    <DropZone class="position-relative" ref="dropzone" :maxFileSize="Number(60000000)" url="http://127.0.0.1:3000/upload" :uploadOnDrop="false" @addedFile="uploaded" :maxFiles="1" :files="[file]"/>
+                                <div class="preview-container">
+                                    <img :src="image ? image : this.user_details.profilePicture" alt="Profile Image" class="preview-image rounded">
+                                    <input type="file" class="d-block text-center mx-auto" @change="updateImage">
                                 </div>
                             </div>
                         </div>
@@ -38,94 +39,85 @@
             </div>
         </div>
     </div>
+    <span>{{ id }}</span>
+    <span>{{ user_id }}</span>
 </template>
 
 <style>
-.temp_dropzone {
-    background: rgb(243, 238, 234, 0.4);
-    border: 2px dashed #6990f2;
-    padding: 10px
+.preview-image{
+    margin: 0 auto;
+    margin-bottom: 40px;
+    max-width: 200px;
+    width: 100%;
 }
+
+input::file-selector-button{
+    background-color: rgb(59 130 246);
+    color: whitesmoke;
+    border-style: none;
+    border-radius: 6px;
+    padding: 4px 8px;
+}
+
+input::file-selector-button:hover{
+    cursor: pointer;
+    background-color: rgb(96 165 250);
+}
+
+.preview-container{
+    margin-top: auto;
+    margin-bottom: auto;
+    border-width: 4px;
+    border-style: dashed;
+    padding-top: 16px;
+    padding-bottom: 8px;
+    border-color: rgb(179, 166, 233);
+    background-color: rgb(196, 181, 253, 0.1)
+}
+
 </style>
 
 <script>
-import axiosInstance from '@/lib'
-import Swal from 'sweetalert2'
-
 export default {
     data() {
         return {
-            file: "",
+            file: '',
             image: null,
             name: "",
             email: "",
-            id: ""
         }
     },
     props: ['id'],
     computed: {
-        name: {
-            set(value){ this.$store.commit('editUser/editName', value) },
-            get(){ return this.$store.state.editUser.name }
-        },
-        email: {
-            set(value){ this.$store.commit('editUser/editEmail', value) },
-            get(){ return this.$store.state.editUser.email }
+        user_details: {
+            get(){
+                return this.$store.state.settings.user
+            }
         }
     },
     methods: {
-        async uploaded(event){
-            this.file = event.file
-        },
-        // submiteForm(){
-        //     const formData = new FormData();
-        //     // formData.append('file', this.file)
-        //     formData.append('name', this.name)
-        //     formData.append('email', this.email)
-        //     this.$store.dispatch('editUser/handleEditUser', formData)
-        //     this.$router.push('/settings')
-        // },        
-        async editUser(id){
-            try {
-                await axiosInstance.patch('/user/' + id, {
-                    name: this.name,
-                    email: this.email
-                })
-                Swal.fire({
-                    title: "User updated successfully",
-                    icon: 'success'
-                })
-            } catch (error) {
-                console.log(error)
+        submitForm(){
+            const formData = new FormData();
+            if(this.file) formData.append('profilePicture', this.file)
+            if(this.name !== this.user_details.name) formData.append('name', this.name)
+            if(this.email !== this.user_details.email) formData.append('email', this.email)
+            this.$store.dispatch('settings/handleEditUser', {id: this.id, formData})
+        },        
+        updateImage(event){
+            this.file = event.target.files[0]
+            if(this.file){
+                const reader = new FileReader()
+                reader.onload = (e) => {
+                    this.image = e.target.result
+                }
+                reader.readAsDataURL(this.file)
             }
-        },
-        addFile() {
-            // Add a file to the Dropzone
-            this.$refs.dropzone.addFile(this.file);
-        },
-
+        }
     },
-    mounted(){
-        this.$store.commit('editUser/editId', this.id)
-        this.$store.dispatch('editUser/getData')
-
-        // Kosongkan Child Element
-        const zone = this.$refs.dropzone.dropzone
-        const child1 = zone.children[0]
-        child1.innerHTML = ""
-
-        // Isi Child Element dengan gambar
-        const div1 = document.createElement("div");
-        const img = document.createElement("img");
-        div1.setAttribute("class", "temp_dropzone")
-        
-        /*
-        * Ganti require() dengan path image
-        * require digunakan jika directory bersifat private
-        */
-        img.setAttribute("src", require('../../../assets/upload-image.png'));
-        div1.appendChild(img)
-        child1.appendChild(div1)
+    async beforeMount(){
+        await this.$store.dispatch("settings/searchDetailUser", {id: this.id})
+        this.name = this.user_details.name
+        this.email = this.user_details.email
     }
 }
 </script>

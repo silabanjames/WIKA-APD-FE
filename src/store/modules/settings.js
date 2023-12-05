@@ -3,15 +3,24 @@ import router from '../../router/index'
 import Swal from 'sweetalert2'
 
 const state = {
-    users_data: []
+    users_data: [],
+    user: {},
 }
 
 const mutations = {
     getAllUsers(state, data){
         state.users_data = data
     },
+    searchDetailUser(state, user){
+        state.user = user
+    },
     deleteUser(state, id){
         state.users_data = state.users_data.filter(data => data.id !== id);
+    },
+    editUserId(state, id){
+        state.user_id = id
+        console.log("check state.user_id")
+        console.log(state.user_id)
     }
 }
 
@@ -47,7 +56,6 @@ const actions = {
                 console.log(err)
                 Swal.fire({
                     title: 'Error',
-                    // text: 'An error occurred while deleting the user.',
                     text: err.response.data.message,
                     icon: 'error',
                 });
@@ -62,7 +70,6 @@ const actions = {
         .then(res=>res.data)
         .then(
             data => {
-                console.log(data.message)
                 router.push({name: 'userManagement'})
                 Swal.fire({
                     title: "User Created Successfully !",
@@ -72,10 +79,57 @@ const actions = {
         )
         .catch(
             err => {
-                console.log(err)
-
+                Swal.fire({
+                    title: err.response.data.message,
+                    icon: "error"
+                })
             }
         )
+    },
+    async searchDetailUser(context, {id}){
+        await axiosInstance.get(`/user/${id}`)
+        .then(res => res.data)
+        .then(data => {
+            context.commit("searchDetailUser", data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    },
+    async handleEditUser(context, {id, formData}){
+        await axiosInstance.patch(
+            `/user/${id}`,
+            formData,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+        )
+        .then(res => res.data)
+        .then(data => {
+            if(data.error){
+                console.log(data)
+                Swal.fire({
+                    title: data.error.message,
+                    icon: "error"
+                })
+            }
+            else{
+                router.push({name: 'userManagement'})
+                Swal.fire({
+                    title: "User updated successfully",
+                    icon: 'success'
+                })
+            }
+        })
+        .catch(err => {
+            console.log(err)
+            Swal.fire({
+                title: err.response.data.message,
+                icon: "error"
+            })
+        })
     }
 }
 

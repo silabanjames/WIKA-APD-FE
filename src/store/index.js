@@ -4,7 +4,6 @@ import {createStore} from 'vuex'
 import layout from './modules/layout';
 import menu from './modules/menu';
 import auth from './modules/auth';
-import editUser from './modules/editUser'
 import bootstrap from './modules/bootstrap';
 
 import log from './modules/log'
@@ -53,7 +52,6 @@ export default createStore({
       layout,
       menu,
       auth,
-      editUser,
       bootstrap,
       dashboard,
       log,
