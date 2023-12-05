@@ -68,20 +68,18 @@ export default{
       set(newValue){
         this.$store.commit('log/changeDate', newValue)
       }
+    },
+    trackingList: {
+      get(){
+        return this.$store.state.log.tracingList
+      }
     }
   },
   methods:{
     async handleClick(){
-      try {
-        const res = await axiosInstance.get('/equipment/filter', {
-        params: {
-          [this.filter]: true
-        }
-      })
-      console.log(res.data.records)
-      } catch (error) {
-        console.log(error)
-      }
+      this.$store.dispatch('log/handleFilter', {[this.filter]: true})
+      console.log("cek handleClick")
+      console.log(this.trackingList)
     },
     compareDate(dateStr){
       // Estimate the date value is string

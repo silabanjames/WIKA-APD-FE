@@ -5,7 +5,7 @@ import router from '../../router/index'
 import trackingList from "../../data/log/trackingList.json"
 
 const state = {
-    trackingList: trackingList.data,
+    trackingList: [],
     date: ''
 };
 
@@ -38,7 +38,7 @@ const mutations = {
     },
     getRequestData(state, payload){
         state.trackingList = payload
-        console.log(trackingList)
+        console.log(state.trackingList)
     }
 };
 
@@ -51,13 +51,29 @@ const actions={
         /*
         * Edit 'track_information' untuk mendapatkan data
         */
-
-        try {
-            const res = await axiosInstance.get("/equipment");
-            context.dispatch("getRequestData", res.data.records)
-          } catch (error) {
-            console.log(error);
-          }
+        await axiosInstance.get("/equipment")
+        .then(res => res.data)
+        .then(data => {
+            context.commit("getRequestData", data.records)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    },
+    async handleFilter(context, params){
+        await axiosInstance.get('/equipment/filter', {
+            params
+        })
+        .then(res => res.data)
+        .then(data => {
+            console.log("cek log pada filter")
+            console.log(params)
+            console.log(data)
+            context.commit("getRequestData", data.records)
+        })
+        .catch(err => {
+            console.log(err)
+        })
     },
     /*
     * Delete data function

@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <div class="mt-3">
-      <FilterData />
+      <FilterData @filter-change="handleFilterChange" :trackingList="trackingList"/>
     </div>
 
     <div class="row">
@@ -91,7 +91,7 @@
                       <td>{{ index + 1 }}</td>
                       <td>
                         <!-- <img :src="getImgUrl(track.image)" alt="" /> -->
-                        {{ track.track.isSafe }}
+                        <!-- {{ track.track.isSafe }} -->
                       </td>
                       <td>
                         {{ track.id }}
@@ -166,14 +166,6 @@ import axiosInstance from "@/lib";
 import Swal from "sweetalert2";
 
 export default {
-  data() {
-    return {
-      // trackingList: [],
-    };
-  },
-  created() {
-    // this.getData();
-  },
   name: "tracingList",
   components: { FilterData },
   computed: {
@@ -213,6 +205,10 @@ export default {
         console.log(error);
       }
     },
+     // Listen for filter-change event
+     handleFilterChange(filteredData) {
+      this.trackingList = filteredData;
+    },
   },
 
   /*
@@ -220,8 +216,6 @@ export default {
    */
   beforeMount(){
       this.$store.dispatch('log/getRequestData')
-      console.log('cek tracking list')
-      console.log(this.$store.state.logs.trackingList)
   }
 };
 </script>

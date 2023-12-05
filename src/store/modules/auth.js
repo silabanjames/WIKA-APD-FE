@@ -7,11 +7,11 @@ const state = {
         name: sessionStorage.getItem('name'),
         profilePicture: sessionStorage.getItem('profilePicture'),
         email: {
-            value: '',
+            value: 'super@admin.com',
             errormsg: ''
         },
         password: {
-            value: '',
+            value: 'Superadmin123',
             errormsg: ''
         },
         role: sessionStorage.getItem('role'),
